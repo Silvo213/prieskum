@@ -1,0 +1,420 @@
+{
+  "verzia": "1.0",
+  "nazov": "Aký Martin chceme",
+  "zdroj": "PRIESKUM-VELKY.md, časť 4 (znenie prepísané doslovne)",
+  "zber": { "od": "2026-09-14", "do": "2026-10-05" },
+  "uvod": {
+    "nadpis": "Aký Martin chceme.",
+    "text": "Pýtame sa Martinčanov, čo má mesto opraviť ako prvé. Päť minút, odpovede sú anonymné. Prieskum pripravuje tím Pavla Zemka, kandidáta na primátora. Na konci môžete nechať kontakt — dostanete výsledky a ste v žrebovaní o desať poukážok do martinských prevádzok.",
+    "vek": "Dotazník od osoby mladšej ako 18 rokov nezbierame."
+  },
+  "skala_bateria": ["súhlasím", "nesúhlasím", "neviem"],
+  "bloky": [
+    {
+      "id": "b1",
+      "poradie": 1,
+      "typ": "spolocny",
+      "ulozisko": "odpovede",
+      "nazov": "Martin dnes",
+      "otazky": [
+        {
+          "id": "b1q1",
+          "text": "Ako sa vám v Martine žije?",
+          "format": "jedna",
+          "povinne": true,
+          "moznosti": ["veľmi dobre", "dobre", "ako-tak", "zle", "veľmi zle"]
+        },
+        {
+          "id": "b1q2",
+          "text": "Ide to s Martinom hore, alebo dole?",
+          "format": "jedna",
+          "povinne": true,
+          "moznosti": ["hore", "stojí to na mieste", "dole", "neviem posúdiť"]
+        },
+        {
+          "id": "b1q3",
+          "text": "Čo vás v Martine najviac hnevá?",
+          "format": "text",
+          "povinne": false,
+          "napoveda": "Jedna vec, vlastnými slovami.",
+          "maxZnakov": 300
+        }
+      ]
+    },
+    {
+      "id": "b2",
+      "poradie": 2,
+      "typ": "spolocny",
+      "ulozisko": "odpovede",
+      "nazov": "Čo prvé",
+      "otazky": [
+        {
+          "id": "b2q1",
+          "text": "Vyberte tri veci, ktoré má mesto riešiť ako prvé.",
+          "format": "viac",
+          "pocet": 3,
+          "povinne": true,
+          "miesat": true,
+          "moznosti": [
+            "doprava a parkovanie",
+            "šport, plaváreň a kúpalisko",
+            "práca a firmy",
+            "bezpečnosť a poriadok",
+            "úrad a poplatky",
+            "čistota, kosenie a odpad",
+            "kultúra a podujatia",
+            "bývanie",
+            "školy a škôlky",
+            "slušná správa mesta"
+          ]
+        },
+        {
+          "id": "b2q2",
+          "text": "Keby mesto malo peniaze len na tri veľké veci, ktoré by to mali byť?",
+          "format": "viac",
+          "pocet": 3,
+          "povinne": true,
+          "miesat": true,
+          "moznosti": [
+            "plaváreň",
+            "kúpalisko",
+            "zimný štadión",
+            "park P. O. Hviezdoslava",
+            "parkovacie domy na sídliskách",
+            "nájomné byty",
+            "opravy chodníkov a ciest",
+            "verejné osvetlenie",
+            "lanovka na Martinské hole",
+            "amfiteáter",
+            "miesta v škôlkach",
+            "priemyselný park a haly pre firmy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b3",
+      "poradie": 3,
+      "typ": "spolocny",
+      "ulozisko": "odpovede",
+      "nazov": "Sporné veci Martina",
+      "format": "bateria",
+      "povinne": true,
+      "miesat": true,
+      "skala": ["súhlasím", "nesúhlasím", "neviem"],
+      "vyroky": [
+        { "id": "b3v1", "text": "Kosenie, čistenie a odvoz odpadu má robiť mestský podnik, nie súkromná firma." },
+        { "id": "b3v2", "text": "Lanovka na Martinské hole je pre Martin dobrá investícia." },
+        { "id": "b3v3", "text": "Mesto má tlačiť na štát, aby postavil obchvat R3 Martin – Rakovo." },
+        { "id": "b3v4", "text": "Parkovanie v meste má mať v rukách mesto, nie samostatná firma." },
+        { "id": "b3v5", "text": "Plaváreň a kúpalisko má mesto zobrať späť pod seba a opraviť." },
+        { "id": "b3v6", "text": "Na sídlisku je dôležitejšie pridať parkovacie miesta ako zeleň." },
+        { "id": "b3v7", "text": "V uliciach má byť viac policajtov, aj keď to bude stáť viac peňazí." },
+        { "id": "b3v8", "text": "Mesto má dávať peniaze na šport a kultúru, aj keď chýbajú na opravy ciest." }
+      ]
+    },
+    {
+      "id": "b4",
+      "poradie": 4,
+      "typ": "spolocny",
+      "ulozisko": "odpovede",
+      "nazov": "Vaša ulica",
+      "otazky": [
+        {
+          "id": "b4q1",
+          "text": "Čo by ste na vašej ulici opravili ako prvé?",
+          "format": "text",
+          "povinne": false,
+          "maxZnakov": 300
+        },
+        {
+          "id": "b4q2",
+          "text": "Ulica alebo najbližšia križovatka.",
+          "format": "ulica",
+          "povinne": false,
+          "napoveda": "Dobrovoľné."
+        }
+      ]
+    },
+    {
+      "id": "t_a",
+      "poradie": 5,
+      "typ": "rotujuci",
+      "ulozisko": "odpovede",
+      "pismeno": "A",
+      "nazov": "Doprava a parkovanie",
+      "otazky": [
+        { "id": "ta_q1", "text": "Kde vám najviac chýba parkovacie miesto?", "format": "jedna", "povinne": true,
+          "moznosti": ["pri dome", "pri práci", "v centre", "pri škole a škôlke", "nechýba"] },
+        { "id": "ta_q2", "text": "Čo s parkovaním na sídlisku?", "format": "jedna", "povinne": true,
+          "moznosti": ["postaviť parkovací dom", "pridať miesta na okraji sídliska", "urobiť poriadok v státí", "nič nemeniť"] },
+        { "id": "ta_q3", "text": "Ako často použijete MHD?", "format": "jedna", "povinne": true,
+          "moznosti": ["denne", "týždenne", "párkrát do roka", "nikdy"] }
+      ]
+    },
+    {
+      "id": "t_b",
+      "poradie": 5,
+      "typ": "rotujuci",
+      "ulozisko": "odpovede",
+      "pismeno": "B",
+      "nazov": "Šport, plaváreň a kúpalisko",
+      "otazky": [
+        { "id": "tb_q1", "text": "Kde chodíte plávať?", "format": "jedna", "povinne": true,
+          "moznosti": ["v Martine", "vo Vrútkach", "v Turčianskych Tepliciach", "inde", "neplávam"] },
+        { "id": "tb_q2", "text": "Čo opraviť prvé?", "format": "jedna", "povinne": true,
+          "moznosti": ["plaváreň", "kúpalisko", "zimný štadión", "ihriská na sídliskách", "haly pre kluby"] },
+        { "id": "tb_q3", "text": "Má mesto rozdeľovať peniaze klubom podľa počtu detí, ktoré trénujú?", "format": "jedna", "povinne": true,
+          "moznosti": ["áno", "nie", "neviem"] }
+      ]
+    },
+    {
+      "id": "t_c",
+      "poradie": 5,
+      "typ": "rotujuci",
+      "ulozisko": "odpovede",
+      "pismeno": "C",
+      "nazov": "Práca a firmy",
+      "otazky": [
+        { "id": "tc_q1", "text": "Kde pracujete?", "format": "jedna", "povinne": true,
+          "moznosti": ["v Martine", "v Turci mimo Martina", "mimo okresu", "nepracujem"] },
+        { "id": "tc_q2", "text": "Uvažovali ste vy alebo niekto z rodiny o odchode z Martina za prácou?", "format": "jedna", "povinne": true,
+          "moznosti": ["áno, deti", "áno, ja", "nie"] },
+        { "id": "tc_q3", "text": "Čo má mesto urobiť najskôr?", "format": "jedna", "povinne": true,
+          "moznosti": ["pripraviť pozemky a haly", "chodiť za investormi", "pomôcť malým firmám a živnostníkom", "prax so strednými školami"] }
+      ]
+    },
+    {
+      "id": "t_d",
+      "poradie": 5,
+      "typ": "rotujuci",
+      "ulozisko": "odpovede",
+      "pismeno": "D",
+      "nazov": "Bezpečnosť a poriadok",
+      "otazky": [
+        { "id": "td_q1", "text": "Cítite sa v Martine po zotmení bezpečne?", "format": "jedna", "povinne": true,
+          "moznosti": ["áno", "skôr áno", "skôr nie", "nie"] },
+        { "id": "td_q2", "text": "Kde je to najhoršie?", "format": "jedna", "povinne": true,
+          "moznosti": ["námestie", "okolie stanice", "naše sídlisko", "parky", "nikde"] },
+        { "id": "td_q3", "text": "Čo pomôže najviac?", "format": "jedna", "povinne": true,
+          "moznosti": ["policajti pešo v uliciach", "lepšie osvetlenie", "kamery", "poriadok na námestí"] }
+      ]
+    },
+    {
+      "id": "t_e",
+      "poradie": 5,
+      "typ": "rotujuci",
+      "ulozisko": "odpovede",
+      "pismeno": "E",
+      "nazov": "Úrad a poplatky",
+      "otazky": [
+        { "id": "te_q1", "text": "Vybavovali ste za posledný rok niečo na mestskom úrade?", "format": "jedna", "povinne": true,
+          "moznosti": ["áno, bez problémov", "áno, s problémami", "nie"] },
+        { "id": "te_q2", "text": "Ktorý poplatok zaťažuje vašu domácnosť najviac?", "format": "jedna", "povinne": true,
+          "moznosti": ["odpad", "daň z nehnuteľnosti", "daň za psa", "poplatok za rozvoj", "žiadny"] },
+        { "id": "te_q3", "text": "Čo by vám najviac pomohlo?", "format": "jedna", "povinne": true,
+          "moznosti": ["jedno miesto na vybavenie všetkého", "dlhšie stránkové hodiny", "vybavenie cez internet", "prístup zamestnancov"] }
+      ]
+    },
+    {
+      "id": "t_f",
+      "poradie": 5,
+      "typ": "rotujuci",
+      "ulozisko": "odpovede",
+      "pismeno": "F",
+      "nazov": "Čistota a verejné služby",
+      "otazky": [
+        { "id": "tf_q1", "text": "Ako ste spokojní s kosením a čistotou vo vašej časti?", "format": "jedna", "povinne": true,
+          "moznosti": ["veľmi", "skôr áno", "skôr nie", "vôbec"] },
+        { "id": "tf_q2", "text": "Čo je najhoršie?", "format": "jedna", "povinne": true,
+          "moznosti": ["nepokosené", "neupratané chodníky", "preplnené koše a kontajnery", "zanedbané zastávky", "neodhrnutý sneh"] },
+        { "id": "tf_q3", "text": "Nahlasovali ste niekedy mestu poruchu alebo neporiadok?", "format": "jedna", "povinne": true,
+          "moznosti": ["áno a vyriešili to", "áno a nestalo sa nič", "nikdy"] }
+      ]
+    },
+    {
+      "id": "t_g",
+      "poradie": 5,
+      "typ": "rotujuci",
+      "ulozisko": "odpovede",
+      "pismeno": "G",
+      "nazov": "Kultúra a podujatia",
+      "otazky": [
+        { "id": "tg_q1", "text": "Koľkokrát ste boli tento rok na podujatí v Martine?", "format": "jedna", "povinne": true,
+          "moznosti": ["ani raz", "raz či dvakrát", "tri až päť", "viac"] },
+        { "id": "tg_q2", "text": "Čo vám chýba najviac?", "format": "jedna", "povinne": true,
+          "moznosti": ["veľká celoslovenská akcia", "podujatia v mestských častiach", "letné kino a amfiteáter", "poriadny jarmok", "nič, stačí to"] },
+        { "id": "tg_q3", "text": "Kam chodíte za kultúrou, keď nie do Martina?", "format": "jedna", "povinne": true,
+          "moznosti": ["Mošovce", "Vrútky", "Žilina", "Turčianske Teplice", "nikam"] }
+      ]
+    },
+    {
+      "id": "t_h",
+      "poradie": 5,
+      "typ": "rotujuci",
+      "ulozisko": "odpovede",
+      "pismeno": "H",
+      "nazov": "Bývanie",
+      "otazky": [
+        { "id": "th_q1", "text": "Býva vaše dieťa alebo vnuk v Martine?", "format": "jedna", "povinne": true,
+          "moznosti": ["áno", "nie, odišlo", "ešte je malé", "nemám"] },
+        { "id": "th_q2", "text": "Pre koho má mesto stavať byty ako prvé?", "format": "jedna", "povinne": true,
+          "moznosti": ["mladé rodiny", "seniori", "lekári, sestry a učitelia", "ľudia v núdzi"] },
+        { "id": "th_q3", "text": "Hľadali ste za posledné dva roky bývanie v Martine?", "format": "jedna", "povinne": true,
+          "moznosti": ["áno a našiel som", "áno a nenašiel som", "nie"] }
+      ]
+    },
+    {
+      "id": "t_i",
+      "poradie": 5,
+      "typ": "rotujuci",
+      "ulozisko": "odpovede",
+      "pismeno": "I",
+      "nazov": "Školy a škôlky",
+      "otazky": [
+        { "id": "ti_q1", "text": "Máte dieťa v martinskej škole alebo škôlke?", "format": "jedna", "povinne": true,
+          "moznosti": ["škôlka", "základná", "stredná", "nemám"] },
+        { "id": "ti_q2", "text": "Dostali ste dieťa do škôlky, ktorú ste chceli?", "format": "jedna", "povinne": true,
+          "moznosti": ["áno", "nie", "neriešil som to"] },
+        { "id": "ti_q3", "text": "Čo najviac chýba?", "format": "jedna", "povinne": true,
+          "moznosti": ["miesta v škôlkach", "opravené budovy", "jedálne a telocvične", "školské dvory", "krúžky"] }
+      ]
+    },
+    {
+      "id": "t_j",
+      "poradie": 5,
+      "typ": "rotujuci",
+      "ulozisko": "odpovede",
+      "pismeno": "J",
+      "nazov": "Slušná správa mesta",
+      "otazky": [
+        { "id": "tj_q1", "text": "Máte pocit, že mesto počúva ľudí?", "format": "jedna", "povinne": true,
+          "moznosti": ["áno", "skôr áno", "skôr nie", "nie"] },
+        { "id": "tj_q2", "text": "Čo vás na fungovaní mesta hnevá najviac?", "format": "jedna", "povinne": true,
+          "moznosti": ["hádky poslancov", "za chyby nikto nenesie následky", "ťažko sa dostať k informáciám", "sľuby, ktoré sa nesplnia"] },
+        { "id": "tj_q3", "text": "Volili ste v posledných komunálnych voľbách?", "format": "jedna", "povinne": true,
+          "moznosti": ["áno", "nie", "nepamätám sa"] }
+      ]
+    },
+    {
+      "id": "b6",
+      "poradie": 6,
+      "typ": "spolocny",
+      "ulozisko": "odpovede",
+      "nazov": "O vás",
+      "poznamka": "anonymné, na váženie",
+      "otazky": [
+        {
+          "id": "b6q1",
+          "text": "Mestská časť",
+          "format": "jedna",
+          "povinne": true,
+          "stlpec": "mestska_cast",
+          "overit": "presné znenie zoznamu overiť na martin.sk",
+          "moznosti": ["Stred", "Sever", "Východ", "Ľadoveň", "Podháj", "Stráne", "Priekopa", "Záturčie", "Košúty", "Jahodníky", "Tomčany", "bývam mimo Martina"]
+        },
+        {
+          "id": "b6q2",
+          "text": "Vek",
+          "format": "jedna",
+          "povinne": true,
+          "stlpec": "vek",
+          "moznosti": ["do 30", "30 – 50", "50 – 65", "65 a viac"]
+        },
+        {
+          "id": "b6q3",
+          "text": "Pohlavie",
+          "format": "jedna",
+          "povinne": false,
+          "stlpec": "pohlavie",
+          "napoveda": "Dobrovoľné.",
+          "moznosti": ["žena", "muž", "nechcem uviesť"]
+        }
+      ]
+    },
+    {
+      "id": "b7",
+      "poradie": 7,
+      "typ": "spolocny",
+      "ulozisko": "anketa",
+      "nazov": "Anketa",
+      "preskocitelny": true,
+      "upozornenie": "Táto otázka je dobrovoľná a anonymná. Neukladá sa spolu s vaším kontaktom a nezverejňujeme ju. Ak nechcete odpovedať, preskočte ju.",
+      "otazky": [
+        {
+          "id": "b7q1",
+          "text": "Keby sa voľby primátora konali zajtra, koho by ste volili?",
+          "format": "jedna",
+          "povinne": false,
+          "stlpec": "kandidat",
+          "miesat": false,
+          "zdrojZoznamu": "Zoznam zaregistrovaných kandidátov pre voľby primátora mesta Martin 24. októbra 2026, mesto Martin, 8. 9. 2026. Abecedne podľa priezviska, poradie sa nemieša nikdy.",
+          "moznosti": [
+            "Marek Belák",
+            "Ján Danko",
+            "Milan Ftorek",
+            "Renáta Habrunová",
+            "Igor Hubáček",
+            "Jozef Petráš",
+            "Matej Turzo",
+            "Michal Uherčík",
+            "Pavol Zemko",
+            "ešte neviem",
+            "nechcem odpovedať"
+          ]
+        },
+        {
+          "id": "b7q2",
+          "text": "Pôjdete voliť 24. októbra?",
+          "format": "jedna",
+          "povinne": false,
+          "stlpec": "ucast",
+          "moznosti": ["určite áno", "asi áno", "asi nie", "určite nie", "ešte neviem"]
+        }
+      ]
+    },
+    {
+      "id": "b8",
+      "poradie": 8,
+      "typ": "spolocny",
+      "ulozisko": "kontakty",
+      "nazov": "Kontakt",
+      "preskocitelny": true,
+      "uvod": "Ak chcete výsledky a byť v žrebovaní o desať poukážok, nechajte kontakt. Bez neho sa dotazník odošle tiež.",
+      "polia": [
+        { "id": "email", "text": "E-mail", "format": "email", "povinne": false },
+        { "id": "telefon", "text": "Telefón", "format": "telefon", "povinne": false }
+      ],
+      "suhlasy": [
+        { "id": "suhlas_zrebovanie", "text": "Súhlasím so zaradením do žrebovania a so zaslaním výsledkov prieskumu.", "predvolene": false },
+        { "id": "suhlas_informacie", "text": "Chcem dostávať aj informácie o kampani Pavla Zemka, najdlhšie do 30. 11. 2026.", "predvolene": false, "poznamka": "samostatné, nepovinné" },
+        { "id": "plnolety", "text": "Mám 18 a viac rokov.", "predvolene": false }
+      ]
+    },
+    {
+      "id": "bonus",
+      "poradie": 9,
+      "typ": "bonus",
+      "ulozisko": "odpovede",
+      "nazov": "Bonus",
+      "kedy": "až za odoslaním",
+      "uvod": "Ďakujeme. Ak máte ešte pol minúty:",
+      "otazky": [
+        {
+          "id": "bonus_q1",
+          "text": "Kedy ste boli naposledy hrdí na Martin?",
+          "format": "text",
+          "povinne": false,
+          "maxZnakov": 300
+        },
+        {
+          "id": "bonus_q2",
+          "text": "Čo z Martina, ktorý si pamätáte, vám dnes najviac chýba?",
+          "format": "jedna",
+          "povinne": false,
+          "moznosti": ["kúpalisko", "letné kino", "podujatia na Stráňach", "práca vo fabrike", "fontány a zeleň", "poriadok na námestí", "zimný štadión, ako býval", "iné"]
+        }
+      ]
+    }
+  ]
+}
