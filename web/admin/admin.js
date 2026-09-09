@@ -344,7 +344,7 @@ function panelZrebovanie() {
         body: JSON.stringify({ seed: seed.value, pocet: Number(pocet.value), naostro: zapisat }),
       });
       vysledok.append(p("h2", null, zapisat ? "Vyžrebované a zapísané" : "Skúšobný výsledok"));
-      vysledok.append(p("p", "napoveda", `Seed „${d.seed}", účastníkov ${cisla(d.ucastnikov)}.`));
+      vysledok.append(p("p", "napoveda", `Seed \u201E${d.seed}\u201C, účastníkov ${cisla(d.ucastnikov)}.`));
       vysledok.append(tabulka(["kontakt", ""], d.vyhercovia.map((v, i) => [`${i + 1}. ${v.kontakt}`, ""])));
       vysledok.append(p("p", "napoveda",
         "Krstné meno a mestskú časť tu nenájdeš. Kontakt ich neobsahuje a je to zámer. " +

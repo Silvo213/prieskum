@@ -386,7 +386,7 @@ function martinskyZoznamHtml(): never
     <h2>Čo má mesto riešiť ako prvé</h2><table>{$riadky}</table>
     <h2>Keby boli peniaze len na tri veľké veci</h2><table>{$velke}</table>
     <h2>Tri veci na každú mestskú časť</h2>{$casti}
-    <p class="zdroj">Prieskum „Aký Martin chceme", zber 14. 9. až 5. 10. 2026. Zostavené {$z['zostavene']}.</p>
+    <p class="zdroj">Prieskum „Aký Martin chceme“, zber 14. 9. až 5. 10. 2026. Zostavené {$z['zostavene']}.</p>
     </main></body></html>
     HTML;
     exit;
