@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<!-- Terénny režim beží na /t/KOD. Bez tohto by sa css, js aj data
+     hľadali v /t/ a aplikácia by sa vôbec nenačítala. -->
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Aký Martin chceme</title>
+<meta name="description" content="Pýtame sa Martinčanov, čo má mesto opraviť ako prvé. Päť minút, odpovede sú anonymné.">
+<meta name="theme-color" content="#FEED01">
+<link rel="icon" href="assets/favicon-256.png" sizes="256x256">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="css/prieskum.css">
+</head>
+<body>
+
+<header class="hlavicka">
+  <div class="hlavicka__pas">
+    <p class="znacka">Aký Martin<br>chceme</p>
+    <div style="display:flex; gap:.5rem; align-items:center;">
+      <button type="button" id="fronta" class="fronta skryte"></button>
+      <button type="button" id="zvacsi" class="zvacsi" aria-pressed="false">Väčšie písmo</button>
+    </div>
+  </div>
+  <div class="postup skryte" id="postup">
+    <p class="postup__text" id="postup-text"></p>
+    <div class="postup__pas" id="postup-pas" role="progressbar" aria-label="Postup vypĺňania"></div>
+  </div>
+</header>
+
+<main class="obsah" id="obsah">
+  <noscript>
+    <h1>Prieskum sa nedá zobraziť</h1>
+    <p>Dotazník potrebuje zapnutý JavaScript. Papierovú verziu nájdete v martinských prevádzkach.</p>
+  </noscript>
+</main>
+
+<footer class="pata" id="pata">
+  <div class="pata__pas">
+    <button type="button" id="spat" class="spat skryte">Späť</button>
+    <button type="button" id="preskocit" class="preskocit skryte">Preskočiť</button>
+    <button type="button" id="dalej" class="dalej">Začať</button>
+  </div>
+</footer>
+
+<div class="imprint">
+  <div class="imprint__pas">
+    <p><a href="udaje.html">Ochrana údajov</a></p>
+    <p style="margin-top:.6rem;">Toto je politické reklamné oznámenie. Objednávateľ: Zemko Pavol, A. Pietra 10645/19, 036 01 Martin, Slovensko · Dodávateľ: [doplní tím podľa § 15 zákona č. 181/2014 Z. z.]</p>
+  </div>
+</div>
+
+<!-- Pasca na roboty. Človek toto pole nevidí a nikdy ho nevyplní. -->
+<label class="mimo-obrazovky" for="prezyvka">Prezývka</label>
+<input class="mimo-obrazovky" id="prezyvka" name="prezyvka" type="text" tabindex="-1" autocomplete="off">
+
+<script type="module" src="js/prieskum.js"></script>
+</body>
+</html>

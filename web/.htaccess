@@ -1,0 +1,34 @@
+# Prieskum „Aký Martin chceme"
+# Poddoména prieskum.pretoze.sk, vlastný koreň mimo WordPressu.
+
+# Kde ležia údaje. Musí to byť priečinok MIMO tohto webového koreňa.
+# Pri nasadení sem doplň absolútnu cestu, napríklad:
+# SetEnv PRIESKUM_UDAJE /data/x/xxx/pretoze.sk/udaje-prieskum
+
+DirectoryIndex index.html
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "no-referrer"
+  Header always set X-Frame-Options "DENY"
+  # Nič sa nesmie načítať z cudzej domény. Toto to vynúti aj v prehliadači.
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Krátke odkazy
+  RewriteRule ^p/?$ /  [R=302,L]
+
+  # Terénny režim: /t/TIM1 obslúži tá istá aplikácia
+  RewriteRule ^t/[A-Za-z0-9-]+/?$ index.html [L]
+
+  # Všetko pod /api ide na jeden vstupný bod
+  RewriteRule ^api(/.*)?$ api/index.php [QSA,L]
+</IfModule>
+
+# Databáza ani nastavenia sa cez web nedajú stiahnuť ani omylom
+<FilesMatch "\.(sqlite|sqlite3|db|env|log)$">
+  Require all denied
+</FilesMatch>

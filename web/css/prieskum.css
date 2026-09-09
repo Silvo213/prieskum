@@ -1,0 +1,390 @@
+/* =============================================================
+   PRIESKUM „AKÝ MARTIN CHCEME"
+   Vizuál podľa PRAVIDLA.md: žltá #FEED01, čierna #0F0F0F,
+   text #1A1A1A, biela. Nič iné. Titulky Archivo Black verzálkami,
+   text Inter. Žiadne gradienty, tiene, ikonky ani ilustrácie.
+
+   Dotazník vypĺňajú aj sedemdesiatnici na námestí, preto je
+   celý postavený na jednej veci: čo je vybrané, je čierne,
+   čo nie je, je biele s hrubým čiernym rámom. Nič medzitým.
+   ============================================================= */
+
+@import url("../assets/fonts/fonts.css");
+
+:root {
+  --zlta:   #FEED01;
+  --cierna: #0F0F0F;
+  --ink:    #1A1A1A;
+  --biela:  #FFFFFF;
+
+  --zvacsenie: 1;                        /* prepínač „Väčšie písmo" dá 1.25 */
+  --ram: 3px;
+  --tlacidlo: 3.5rem;                    /* 56 px pri základnom písme */
+  --medzera: 0.75rem;                    /* medzi tlačidlami, viac ako žiadaných 10 px */
+  --stlpec: 40rem;
+
+  --titulok: 'Archivo Black', 'Arial Black', Impact, sans-serif;
+  --text: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-size: calc(18px * var(--zvacsenie));   /* základ nikdy nejde pod 18 px */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--biela);
+}
+
+body {
+  font-family: var(--text);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--biela);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+::selection { background: var(--cierna); color: var(--zlta); }
+
+:focus-visible {
+  outline: var(--ram) solid var(--cierna);
+  outline-offset: 3px;
+}
+
+.skryte { display: none !important; }
+
+/* len pre čítačky obrazovky a pre pascu na roboty */
+.mimo-obrazovky {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden; clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- hlavička ---------- */
+
+.hlavicka {
+  background: var(--zlta);
+  border-bottom: var(--ram) solid var(--cierna);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding-top: env(safe-area-inset-top);
+}
+
+.hlavicka__pas {
+  max-width: var(--stlpec);
+  margin-inline: auto;
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.znacka {
+  font-family: var(--titulok);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cierna);
+  line-height: 1.2;
+}
+
+.zvacsi {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 0.8rem;
+  background: var(--biela);
+  color: var(--ink);
+  border: var(--ram) solid var(--cierna);
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 2.6rem;
+}
+.zvacsi[aria-pressed="true"] { background: var(--cierna); color: var(--zlta); }
+
+/* ---------- ukazovateľ postupu ---------- */
+
+.postup {
+  max-width: var(--stlpec);
+  margin-inline: auto;
+  padding: 0 1rem 0.7rem;
+}
+
+.postup__text {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--cierna);
+  margin-bottom: 0.35rem;
+}
+
+.postup__pas {
+  display: flex;
+  gap: 3px;
+  height: 0.6rem;
+  border: 2px solid var(--cierna);
+  background: var(--biela);
+}
+
+.postup__dielik { flex: 1; background: var(--biela); }
+.postup__dielik--hotovy { background: var(--cierna); }
+
+/* ---------- obsah ---------- */
+
+.obsah {
+  flex: 1;
+  max-width: var(--stlpec);
+  width: 100%;
+  margin-inline: auto;
+  padding: 1.6rem 1rem 2rem;
+}
+
+h1 {
+  font-family: var(--titulok);
+  font-size: 1.9rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--cierna);
+  margin-bottom: 1rem;
+}
+
+h2.otazka {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 1.3rem;               /* 23.4 px, žiadaných je aspoň 22 */
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.napoveda {
+  font-size: 0.95rem;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+
+.uvod p { margin-bottom: 1rem; }
+.uvod strong { font-weight: 700; }
+
+.autorstvo {
+  border: var(--ram) solid var(--cierna);
+  background: var(--zlta);
+  padding: 1rem;
+  margin: 1.4rem 0;
+  font-weight: 700;
+}
+
+/* ---------- odpovede ---------- */
+
+.odpovede {
+  display: flex;
+  flex-direction: column;
+  gap: var(--medzera);
+  margin: 1.2rem 0;
+  list-style: none;
+}
+
+.odpoved {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--tlacidlo);
+  padding: 0.8rem 1rem;
+  font-family: var(--text);
+  font-size: 1.05rem;
+  font-weight: 400;
+  text-align: left;
+  color: var(--ink);
+  background: var(--biela);
+  border: var(--ram) solid var(--cierna);
+  cursor: pointer;
+}
+
+.odpoved:hover { background: var(--zlta); }
+
+.odpoved[aria-checked="true"],
+.odpoved[aria-pressed="true"] {
+  background: var(--cierna);
+  color: var(--zlta);
+  font-weight: 700;
+}
+.odpoved[aria-checked="true"]:hover,
+.odpoved[aria-pressed="true"]:hover { background: var(--cierna); }
+
+.pocitadlo {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.8rem;
+}
+
+/* ---------- batéria výrokov ---------- */
+
+.vyrok { margin-bottom: 1.6rem; }
+
+.vyrok__text {
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.35;
+  margin-bottom: var(--medzera);
+}
+
+.vyrok__volby {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--medzera);
+}
+
+.vyrok__volby .odpoved {
+  justify-content: center;
+  text-align: center;
+  padding: 0.6rem 0.3rem;
+  font-size: 0.95rem;
+}
+
+/* ---------- textové polia ---------- */
+
+.pole {
+  width: 100%;
+  font-family: var(--text);
+  font-size: 1.05rem;
+  color: var(--ink);
+  background: var(--biela);
+  border: var(--ram) solid var(--cierna);
+  padding: 0.8rem 1rem;
+  min-height: var(--tlacidlo);
+}
+textarea.pole { min-height: 7rem; resize: vertical; }
+
+.zostava {
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+.stitok {
+  display: block;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
+}
+
+/* ---------- súhlasy ---------- */
+
+.suhlas {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  border: var(--ram) solid var(--cierna);
+  padding: 1rem;
+  margin-bottom: var(--medzera);
+  cursor: pointer;
+}
+.suhlas input {
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  accent-color: var(--cierna);
+  margin-top: 0.1rem;
+}
+.suhlas:has(input:checked) { background: var(--zlta); }
+.suhlas span { font-size: 0.98rem; line-height: 1.4; }
+
+/* ---------- pätka s tlačidlami ---------- */
+
+.pata {
+  position: sticky;
+  bottom: 0;
+  background: var(--biela);
+  border-top: var(--ram) solid var(--cierna);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pata__pas {
+  max-width: var(--stlpec);
+  margin-inline: auto;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: var(--medzera);
+}
+
+.dalej {
+  flex: 1;
+  min-height: var(--tlacidlo);
+  font-family: var(--titulok);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--zlta);
+  background: var(--cierna);
+  border: var(--ram) solid var(--cierna);
+  cursor: pointer;
+}
+.dalej:disabled { background: var(--biela); color: var(--cierna); cursor: not-allowed; }
+
+.spat, .preskocit {
+  min-height: var(--tlacidlo);
+  padding: 0 1rem;
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--biela);
+  border: var(--ram) solid var(--cierna);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chyba {
+  border: var(--ram) solid var(--cierna);
+  background: var(--zlta);
+  font-weight: 700;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+}
+
+/* ---------- pätička ---------- */
+
+.imprint {
+  background: var(--cierna);
+  color: var(--biela);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  padding: 1.2rem 1rem calc(1.2rem + env(safe-area-inset-bottom));
+}
+.imprint__pas { max-width: var(--stlpec); margin-inline: auto; }
+.imprint a { color: var(--zlta); }
+
+/* ---------- terénny režim ---------- */
+
+.fronta {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: 0.8rem;
+  background: var(--cierna);
+  color: var(--zlta);
+  border: var(--ram) solid var(--cierna);
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  min-height: 2.6rem;
+  white-space: nowrap;
+}
+
+.dakujeme { text-align: center; padding-top: 2rem; }
+.dakujeme h1 { font-size: 2.6rem; }
+
+/* ---------- väčšie obrazovky ---------- */
+
+@media (min-width: 48rem) {
+  h1 { font-size: 2.4rem; }
+  .obsah { padding-top: 2.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

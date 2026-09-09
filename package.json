@@ -4,9 +4,10 @@
   "type": "module",
   "description": "Prieskum „Aký Martin chceme\" — dotazník, terénny režim, správa prieskumu",
   "scripts": {
-    "test": "node --no-warnings --test testy/*.test.mjs",
+    "test": "node --no-warnings --test testy/oddelenie.test.mjs testy/kvalita.test.mjs",
     "server": "php -S localhost:8123 -t web skripty/server.php",
     "ulice": "node skripty/ulice.mjs",
-    "vymaz-kontakty": "node skripty/vymaz-kontakty.mjs"
+    "vymaz-kontakty": "node skripty/vymaz-kontakty.mjs",
+    "test:prehliadac": "node --no-warnings --test testy/dotaznik.test.mjs testy/offline.test.mjs"
   }
 }
