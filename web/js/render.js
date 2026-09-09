@@ -231,14 +231,31 @@ export function vykresliOtazku(otazka, stav, zmena, ulice) {
 
 /* Je obrazovka zodpovedaná natoľko, aby sa dalo ísť ďalej? */
 export function hotova(obrazovka, stav) {
+  return chyba(obrazovka, stav) === null;
+}
+
+/* Čo presne chýba. Nestačí povedať „nedá sa ďalej", človek musí vidieť,
+   ktorá otázka to je a čo od neho chceme. */
+export function chyba(obrazovka, stav) {
   if (obrazovka.bateria) {
-    return obrazovka.bateria.vyroky.every((v) => stav.odpovede[v.id] !== undefined);
+    const chybajuci = obrazovka.bateria.vyroky.find((v) => stav.odpovede[v.id] === undefined);
+    return chybajuci ? { id: chybajuci.id, text: chybajuci.text, sprava: "Ku každej vete povedzte, či s ňou súhlasíte." } : null;
   }
-  return (obrazovka.otazky ?? []).every((o) => {
-    if (!o.povinne) return true;
-    const h = stav.odpovede[o.id];
-    if (h === undefined || h === "") return false;
-    if (o.format === ZNAK.viac) return h.length === o.pocet;
-    return true;
-  });
+
+  for (const otazka of obrazovka.otazky ?? []) {
+    if (!otazka.povinne) continue;
+    const hodnota = stav.odpovede[otazka.id];
+
+    if (otazka.format === ZNAK.viac) {
+      const kolko = hodnota?.length ?? 0;
+      if (kolko !== otazka.pocet) {
+        return { id: otazka.id, text: otazka.text, sprava: `Vyberte presne ${otazka.pocet}. Zatiaľ máte ${kolko}.` };
+      }
+      continue;
+    }
+    if (hodnota === undefined || hodnota === "") {
+      return { id: otazka.id, text: otazka.text, sprava: "Na túto otázku ešte nemáme odpoveď." };
+    }
+  }
+  return null;
 }

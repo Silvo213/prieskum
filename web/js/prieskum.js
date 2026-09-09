@@ -2,7 +2,7 @@
    Jedna otázka alebo jeden blok na obrazovku, vždy Ďalej aj Späť.
    Funguje aj bez signálu: odoslané dotazníky idú do fronty v prehliadači. */
 
-import { vykresliOtazku, vykresliBateriu, hotova } from "./render.js";
+import { vykresliOtazku, vykresliBateriu, hotova, chyba } from "./render.js";
 import * as ulozisko from "./ulozisko.js";
 
 const API = "api";
@@ -156,7 +156,7 @@ function vykresliMiesto() {
   prvky.spat.classList.add("skryte");
   prvky.preskocit.classList.add("skryte");
   prvky.dalej.textContent = "Ďalej";
-  prvky.dalej.disabled = teren.miesto === null;
+  prvky.dalej.disabled = false;
 
   prvky.obsah.append(p("h2", "otazka", "Kde dnes zbierate?"));
   prvky.obsah.append(p("p", "napoveda", "Vyberie sa raz za zmenu."));
@@ -191,7 +191,10 @@ function vykresliKrok() {
 
   ukazPostup();
 
-  const zmena = () => { prvky.dalej.disabled = !mozeDalej(); ulozisko.ulozRozpracovane(stav).catch(() => {}); };
+  /* Tlačidlo Ďalej sa nezaškrtáva ako mŕtve. Vypnuté tlačidlo starším
+     ľuďom nepovie nič, len ich zastaví. Radšej pustíme klik a povieme,
+     čo ešte chýba, a odskočíme na to. */
+  const zmena = () => { skryChybu(); ulozisko.ulozRozpracovane(stav).catch(() => {}); };
 
   switch (obrazovka.druh) {
     case "bateria":
@@ -209,8 +212,26 @@ function vykresliKrok() {
       }
   }
 
-  prvky.dalej.disabled = !mozeDalej();
+  prvky.dalej.disabled = false;
   if (stav.zaciatok === null) stav.zaciatok = Date.now();
+}
+
+function ukazChybu(sprava, kamOdskocit) {
+  skryChybu();
+  const oznam = p("div", "chyba");
+  oznam.id = "oznam";
+  oznam.setAttribute("role", "alert");
+  oznam.textContent = sprava;
+  prvky.obsah.prepend(oznam);
+
+  const ciel = kamOdskocit
+    ? prvky.obsah.querySelector(`[aria-label="${CSS.escape(kamOdskocit)}"]`)
+    : null;
+  (ciel ?? oznam).scrollIntoView({ block: "center" });
+}
+
+function skryChybu() {
+  document.getElementById("oznam")?.remove();
 }
 
 function vykresliAnketu(blok, zmena) {
@@ -301,17 +322,6 @@ function ukazPostup() {
   for (let i = 0; i < spolu; i++) {
     prvky.postupPas.append(p("span", "postup__dielik" + (i < teraz ? " postup__dielik--hotovy" : "")));
   }
-}
-
-function mozeDalej() {
-  const obrazovka = obrazovky[stav.krok];
-  if (obrazovka.druh === "anketa") return true;
-  if (obrazovka.druh === "kontakt") {
-    const maKontakt = (stav.kontakt.email ?? "") !== "" || (stav.kontakt.telefon ?? "") !== "";
-    if (!maKontakt) return true;
-    return Boolean(stav.kontakt.suhlas_zrebovanie) && Boolean(stav.kontakt.plnolety);
-  }
-  return hotova(obrazovka, stav);
 }
 
 /* ---------- odoslanie ---------- */
@@ -455,11 +465,39 @@ window.addEventListener("online", () => { ulozisko.odosliFrontu().then(ukazFront
 
 prvky.dalej.addEventListener("click", () => {
   if (stav.krok === -1 && teren && !teren.miesto) { vykresliMiesto(); stav.krok = -0.5; return; }
-  if (stav.krok === -0.5) { stav.krok = 0; vykresliKrok(); return; }
-  if (obrazovky[stav.krok]?.druh === "kontakt") { odosli(); return; }
+  if (stav.krok === -0.5) {
+    if (!teren.miesto) { ukazChybu("Vyberte miesto zberu.", "Miesto zberu"); return; }
+    stav.krok = 0; vykresliKrok(); return;
+  }
+  if (stav.krok === -1) { stav.krok = 0; vykresliKrok(); return; }
+
+  const obrazovka = obrazovky[stav.krok];
+  const cochyba = obrazovka.druh === "otazky" || obrazovka.druh === "bateria"
+    ? chyba(obrazovka.druh === "bateria" ? { bateria: obrazovka.bateria } : obrazovka, stav)
+    : chybaNaKontakte(obrazovka);
+
+  if (cochyba) {
+    ukazChybu(cochyba.sprava, cochyba.text ?? null);
+    return;
+  }
+
+  if (obrazovka.druh === "kontakt") { odosli(); return; }
   stav.krok = Math.min(stav.krok + 1, obrazovky.length - 1);
   vykresliKrok();
 });
+
+function chybaNaKontakte(obrazovka) {
+  if (obrazovka.druh !== "kontakt") return null;
+  const maKontakt = (stav.kontakt.email ?? "") !== "" || (stav.kontakt.telefon ?? "") !== "";
+  if (!maKontakt) return null;
+  if (!stav.kontakt.suhlas_zrebovanie) {
+    return { sprava: "Bez zaškrtnutia prvého políčka kontakt neuložíme. Dotazník sa dá odoslať aj bez kontaktu, stačí Preskočiť." };
+  }
+  if (!stav.kontakt.plnolety) {
+    return { sprava: "Do žrebovania môžeme zaradiť len človeka, ktorý má 18 a viac rokov." };
+  }
+  return null;
+}
 
 prvky.spat.addEventListener("click", () => {
   if (stav.krok <= 0) { stav.krok = -1; vykresliUvod(); return; }
