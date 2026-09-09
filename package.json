@@ -1,0 +1,12 @@
+{
+  "name": "prieskum-aky-martin-chceme",
+  "private": true,
+  "type": "module",
+  "description": "Prieskum „Aký Martin chceme\" — dotazník, terénny režim, správa prieskumu",
+  "scripts": {
+    "test": "node --no-warnings --test testy/*.test.mjs",
+    "server": "php -S localhost:8123 -t web skripty/server.php",
+    "ulice": "node skripty/ulice.mjs",
+    "vymaz-kontakty": "node skripty/vymaz-kontakty.mjs"
+  }
+}
