@@ -310,8 +310,21 @@
           "format": "jedna",
           "povinne": true,
           "stlpec": "mestska_cast",
-          "overit": "presné znenie zoznamu overiť na martin.sk",
-          "moznosti": ["Stred", "Sever", "Východ", "Ľadoveň", "Podháj", "Stráne", "Priekopa", "Záturčie", "Košúty", "Jahodníky", "Tomčany", "bývam mimo Martina"]
+          "zdrojZoznamu": "Overené na martin.sk 9. 9. 2026. Mesto má sedem mestských častí: Košúty, Ľadoveň - Jahodníky - Tomčany, Podháj - Stráne, Priekopa, Sever, Stred, Záturčie. Mestská časť Východ neexistuje, v PRIESKUM-VELKY.md je omylom. V dotazníku sa pýtame na názvy, ktoré ľudia bežne používajú, a v admine sa sčítavajú na sedem úradných častí podľa mapovania nižšie.",
+          "moznosti": ["Stred", "Sever", "Ľadoveň", "Jahodníky", "Tomčany", "Podháj", "Stráne", "Priekopa", "Záturčie", "Košúty", "bývam mimo Martina"],
+          "mapovanie": {
+            "Stred": "Stred",
+            "Sever": "Sever",
+            "Ľadoveň": "Ľadoveň - Jahodníky - Tomčany",
+            "Jahodníky": "Ľadoveň - Jahodníky - Tomčany",
+            "Tomčany": "Ľadoveň - Jahodníky - Tomčany",
+            "Podháj": "Podháj - Stráne",
+            "Stráne": "Podháj - Stráne",
+            "Priekopa": "Priekopa",
+            "Záturčie": "Záturčie",
+            "Košúty": "Košúty",
+            "bývam mimo Martina": "mimo Martina"
+          }
         },
         {
           "id": "b6q2",
