@@ -8,6 +8,12 @@
     "server": "php -S localhost:8123 -t web skripty/server.php",
     "ulice": "node skripty/ulice.mjs",
     "vymaz-kontakty": "node skripty/vymaz-kontakty.mjs",
-    "test:prehliadac": "node --no-warnings --test testy/dotaznik.test.mjs testy/offline.test.mjs"
+    "test:prehliadac": "node --no-warnings --test testy/dotaznik.test.mjs testy/offline.test.mjs",
+    "qr": "node skripty/qr.mjs",
+    "skusobne": "node skripty/skusobne-data.mjs",
+    "prototyp": "sh skripty/prototyp.sh"
+  },
+  "devDependencies": {
+    "qrcode": "^1.5.4"
   }
 }

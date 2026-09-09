@@ -1,0 +1,5 @@
+Všetky štyri súbory nesú tú istú adresu:
+https://prieskum.pretoze.sk
+
+Ak sa adresa zmení, spusti znova: npm run qr -- https://nova-adresa
+a vymeň súbory všade, kde už sú vytlačené.

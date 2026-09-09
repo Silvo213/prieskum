@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Správa prieskumu</title>
+<link rel="icon" href="assets/favicon-256.png" sizes="256x256">
+<link rel="stylesheet" href="css/prieskum.css">
+<link rel="stylesheet" href="admin/admin.css">
+</head>
+<body class="sprava">
+
+<header class="hlavicka">
+  <div class="hlavicka__pas sirsi">
+    <p class="znacka">Správa prieskumu</p>
+    <button type="button" id="odhlasit" class="zvacsi skryte">Odhlásiť</button>
+  </div>
+</header>
+
+<nav class="zalozky skryte" id="zalozky">
+  <button type="button" data-panel="prehlad" class="zalozka">Prehľad</button>
+  <button type="button" data-panel="otvorene" class="zalozka">Otvorené odpovede</button>
+  <button type="button" data-panel="zoznam" class="zalozka">Martinský zoznam</button>
+  <button type="button" data-panel="exporty" class="zalozka">Exporty</button>
+  <button type="button" data-panel="zrebovanie" class="zalozka">Žrebovanie</button>
+  <button type="button" data-panel="anketa" class="zalozka">Anketa</button>
+</nav>
+
+<main class="obsah sirsi" id="obsah"></main>
+
+<div class="imprint">
+  <div class="imprint__pas sirsi">
+    <p>Interný nástroj. Odpovede, anketa a kontakty sú tri oddelené tabuľky a nikdy sa neexportujú spolu.</p>
+  </div>
+</div>
+
+<script type="module" src="admin/admin.js"></script>
+</body>
+</html>

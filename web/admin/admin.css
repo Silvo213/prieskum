@@ -1,0 +1,75 @@
+/* Správa prieskumu. Vizuál kampane, ale hustejší: je to pracovný nástroj,
+   nie verejný formulár. Jediná výnimka z palety je červená veta pri ankete,
+   ktorú si zadanie výslovne pýta. Verejnosť ju nikdy neuvidí. */
+
+.sprava { --stlpec: 68rem; --cervena: #C81E1E; }
+.sirsi { max-width: var(--stlpec); }
+.sprava .obsah { padding-bottom: 4rem; }
+
+.zalozky {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  background: var(--cierna);
+  border-bottom: var(--ram) solid var(--cierna);
+  padding: 0 max(1rem, calc((100vw - var(--stlpec)) / 2));
+}
+.zalozka {
+  font-family: var(--text);
+  font-weight: 700;
+  font-size: .9rem;
+  padding: .8rem 1rem;
+  min-height: 3rem;
+  background: var(--biela);
+  color: var(--ink);
+  border: none;
+  cursor: pointer;
+}
+.zalozka[aria-current="true"] { background: var(--zlta); }
+
+.karty { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: var(--medzera); margin-bottom: 2rem; }
+.karta { border: var(--ram) solid var(--cierna); padding: 1rem; }
+.karta__cislo { font-family: var(--titulok); font-size: 2.2rem; line-height: 1.05; }
+.karta__cislo--kratsie { font-size: 1.5rem; }
+.karta__popis { font-size: .85rem; margin-top: .3rem; }
+.karta--hlavna { background: var(--zlta); }
+
+.sprava h2 { font-family: var(--titulok); text-transform: uppercase; font-size: 1.2rem; margin: 2rem 0 .8rem; }
+.sprava h3 { font-weight: 700; font-size: 1rem; margin: 1.2rem 0 .4rem; }
+
+table.tabulka { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+table.tabulka th { text-align: left; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; border-bottom: var(--ram) solid var(--cierna); padding: .4rem; }
+table.tabulka td { padding: .45rem .4rem; border-bottom: 2px solid var(--cierna); font-size: .95rem; }
+table.tabulka td.cislo { text-align: right; font-weight: 700; width: 5rem; }
+
+.pas { display: flex; align-items: center; gap: .6rem; margin-bottom: .35rem; }
+.pas__meno { font-family: var(--titulok); width: 1.4rem; }
+.pas__ciara { flex: 1; height: 1.1rem; border: 2px solid var(--cierna); }
+.pas__vypln { height: 100%; background: var(--cierna); }
+.pas__vypln--malo { background: var(--zlta); }
+.pas__cislo { width: 3rem; text-align: right; font-weight: 700; }
+
+.riadok { display: flex; gap: var(--medzera); flex-wrap: wrap; align-items: flex-end; margin-bottom: 1rem; }
+.riadok .pole { flex: 1; min-width: 12rem; }
+
+.citat { border: var(--ram) solid var(--cierna); padding: .9rem; margin-bottom: var(--medzera); }
+.citat__text { font-size: 1.05rem; margin-bottom: .5rem; }
+.citat__udaje { font-size: .8rem; display: flex; gap: .8rem; flex-wrap: wrap; align-items: center; }
+.citat--oznaceny { background: var(--zlta); }
+.hviezda { font-family: var(--text); font-weight: 700; font-size: .85rem; padding: .4rem .7rem; min-height: 2.4rem; border: 2px solid var(--cierna); background: var(--biela); cursor: pointer; }
+.hviezda[aria-pressed="true"] { background: var(--cierna); color: var(--zlta); }
+
+.odkazy { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: var(--medzera); }
+.odkaz {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 3.4rem; padding: .8rem 1rem;
+  border: var(--ram) solid var(--cierna); background: var(--biela);
+  color: var(--ink); text-decoration: none; font-weight: 700;
+}
+.odkaz:hover { background: var(--zlta); }
+.odkaz span { font-family: var(--titulok); font-size: .8rem; }
+
+.varovanie { border: var(--ram) solid var(--cervena); color: var(--cervena); font-weight: 700; padding: 1rem; margin-bottom: 1.5rem; }
+
+.prihlasenie { max-width: 22rem; margin: 3rem auto; }
+.prihlasenie .pole { margin-bottom: var(--medzera); }

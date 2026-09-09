@@ -29,16 +29,36 @@ Wordfence, ktorý si zapisuje IP adresy návštevníkov, aj prepisovacie pravidl
   verzia v `~/.local/php/php`.
 - **Node 22** len na testy, na generovanie zoznamu ulíc a QR kódu. Na server nejde.
 
-## Spustenie lokálne
+## Vyskúšanie prototypu
+
+    npm run prototyp -- --nanovo
+
+Zmaže starú skúšobnú databázu, spustí server, naplní ho osemdesiatimi vymyslenými
+dotazníkmi a vypíše adresy. Bez `--nanovo` len naštartuje server a nechá, čo tam je.
+
+| Kde | Adresa |
+|---|---|
+| Dotazník | `http://localhost:8123/` |
+| Terénny tablet | `http://localhost:8123/t/TIM1` |
+| Správa prieskumu | `http://localhost:8123/admin/` |
+| Ochrana údajov | `http://localhost:8123/udaje.html` |
+
+Skúšobné prihlásenie je `silvo` a `prieskum2026`, druhé heslo k ankete `anketa2026`.
+Na ostrom serveri sa nastavia vlastné, tieto nikam nejdú.
+
+Server počúva aj na sieti, takže z mobilu na tej istej wifi otvoríš tú istú adresu
+s IP adresou Macu. Skript ju vypíše.
+
+Skúšobné dáta sú vymyslené. Pred ostrým zberom databázu zmaž:
+
+    rm udaje/prieskum.sqlite
+
+## Spustenie bez skúšobných dát
 
     npm run server
 
 Beží na `http://localhost:8123`. Databáza a nastavenia vzniknú v priečinku `udaje/`,
 ktorý je mimo gitu.
-
-Pred prvým spustením si tam vytvor `udaje/.env`:
-
-    TIMY=TIM1,TIM2,TIM3,TIM4
 
 ## Testy
 
@@ -100,6 +120,23 @@ Súbor databázy je jeden a záloha je jeho kópia. Cez konzolu:
 Rob to každý večer počas zberu. WebSupport zálohuje web denne aj sám, ale vlastná
 kópia je vlastná kópia.
 
+## Exporty a žrebovanie
+
+Obidve sú v správe prieskumu na `/admin/`.
+
+**Exporty** sú v záložke Exporty. Tri tabuľky, tri samostatné súbory, každý ako CSV
+aj ako XLSX. Nikdy sa nesťahujú spolu a nikdy sa nespájajú. Anketa a kontakty
+vychádzajú v náhodnom poradí. Štvrtý export sú označené citáty.
+
+**Žrebovanie** je v záložke Žrebovanie. Seed vyhlás pred kamerou a až potom ho napíš
+do poľa. Tlačidlo „Ukázať výsledok" nič nezapisuje, dá sa ním skúšať. „Vyžrebovať
+naostro" zapíše do `udaje-prieskum/zrebovanie.log` seed, čas, počet účastníkov
+a vyžrebované označenia.
+
+Krstné meno a mestskú časť výhercu tam neuvidíš. Kontakt ich neobsahuje a je to
+zámer, viď [DATA.md](DATA.md). Vypýtaj si ich od výhercu, keď mu napíšeš; vtedy ti
+zároveň dá súhlas so zverejnením mena.
+
 ## Kontakty sa mažú 30. novembra 2026
 
 Termín je v súhlase, ktorý ľudia zaškrtli. Nie je to odporúčanie.
@@ -109,6 +146,16 @@ Termín je v súhlase, ktorý ľudia zaškrtli. Nie je to odporúčanie.
 
 Zapíše sa počet a čas do `udaje-prieskum/vymaz-kontaktov.log`, aby sa dalo doložiť,
 že sa to stalo. Samotné kontakty sa nikam nezálohujú, to by bolo mazanie naoko.
+
+## QR kód
+
+    npm run qr
+
+Vytvorí do `qr/` štyri súbory na ten istý odkaz: čierny na bielom a čierny na žltom,
+každý ako SVG aj ako PNG v tlačovej veľkosti. Jeden a ten istý kód pre visačky,
+kartičky, tašky aj noviny. Ak sa adresa zmení:
+
+    npm run qr -- https://nova-adresa
 
 ## Zoznam ulíc
 
