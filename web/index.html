@@ -19,7 +19,7 @@
 <header class="hlavicka">
   <div class="hlavicka__pas">
     <p class="znacka">Aký Martin<br>chceme</p>
-    <div style="display:flex; gap:.5rem; align-items:center;">
+    <div class="vedla-seba">
       <button type="button" id="fronta" class="fronta skryte"></button>
       <button type="button" id="zvacsi" class="zvacsi" aria-pressed="false">Väčšie písmo</button>
     </div>
@@ -41,14 +41,16 @@
   <div class="pata__pas">
     <button type="button" id="spat" class="spat skryte">Späť</button>
     <button type="button" id="preskocit" class="preskocit skryte">Preskočiť</button>
-    <button type="button" id="dalej" class="dalej">Začať</button>
+    <!-- Kým sa nenačíta JavaScript, tlačidlo nesmie vyzerať pripravene.
+         Na pomalom telefóne by prvé klepnutie neurobilo nič. -->
+    <button type="button" id="dalej" class="dalej" disabled>Načítavam…</button>
   </div>
 </footer>
 
 <div class="imprint">
   <div class="imprint__pas">
     <p><a href="udaje.html">Ochrana údajov</a></p>
-    <p style="margin-top:.6rem;">Toto je politické reklamné oznámenie. Objednávateľ: Zemko Pavol, A. Pietra 10645/19, 036 01 Martin, Slovensko · Dodávateľ: [doplní tím podľa § 15 zákona č. 181/2014 Z. z.]</p>
+    <p class="odsadene">Toto je politické reklamné oznámenie. Objednávateľ: Zemko Pavol, A. Pietra 10645/19, 036 01 Martin, Slovensko · Dodávateľ: [doplní tím podľa § 15 zákona č. 181/2014 Z. z.]</p>
   </div>
 </div>
 

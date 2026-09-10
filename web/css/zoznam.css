@@ -1,0 +1,16 @@
+/* Martinský zoznam — stránka, z ktorej sa robí grafika.
+   Samostatný súbor, lebo vnorené štýly sú v .htaccess zakázané. */
+
+body { background: var(--zlta); }
+.obsah { background: var(--biela); border: 3px solid var(--cierna); margin: 1.5rem auto; }
+h1 { font-size: 2.2rem; }
+h2 { font-family: var(--titulok); text-transform: uppercase; font-size: 1.2rem; margin: 2rem 0 .8rem; }
+h3 { font-weight: 700; margin: 1.2rem 0 .3rem; }
+table { width: 100%; border-collapse: collapse; }
+td { padding: .5rem .4rem; border-bottom: 2px solid var(--cierna); }
+td:first-child { width: 2.5rem; font-family: var(--titulok); }
+td:last-child { width: 4rem; text-align: right; font-weight: 700; }
+ol { padding-left: 1.4rem; }
+li { margin-bottom: .3rem; }
+.pocet { font-weight: 700; }
+.zdroj { font-size: .8rem; margin-top: 2rem; }

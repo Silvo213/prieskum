@@ -56,17 +56,17 @@ $e = fn(string $t): string => htmlspecialchars($t, ENT_QUOTES, 'UTF-8');
   </div>
 </header>
 
-<main class="obsah">
+<main class="obsah text">
   <h1><?= $e($nadpis) ?></h1>
   <p><?= $e($sprava) ?></p>
 
   <?php if ($dalsi !== null): ?>
-    <p class="napoveda" style="margin-top:1.5rem;"><?= $e($dalsi) ?></p>
-    <p><a class="spat" style="display:inline-flex; align-items:center;"
+    <p class="napoveda odsadene-viac"><?= $e($dalsi) ?></p>
+    <p><a class="spat odkaz-tlacidlo"
           href="odhlasit.php?token=<?= $e($token) ?>&amp;spat=1">Prihlásiť ma späť</a></p>
   <?php endif; ?>
 
-  <p style="margin-top:2rem;"><a href="udaje.html">Ochrana údajov</a></p>
+  <p class="odsadene-viac"><a href="udaje.html">Ochrana údajov</a></p>
 </main>
 
 <div class="imprint">

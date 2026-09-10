@@ -12,7 +12,9 @@ DirectoryIndex index.html
   Header always set Referrer-Policy "no-referrer"
   Header always set X-Frame-Options "DENY"
   # Nič sa nesmie načítať z cudzej domény. Toto to vynúti aj v prehliadači.
-  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"
+  # base-uri 'self' tu musí byť, inak prehliadač zahodí <base href="/">
+  # a terénny režim na /t/KOD si začne hľadať css a js v /t/.
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
 </IfModule>
 
 <IfModule mod_rewrite.c>

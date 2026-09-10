@@ -19,6 +19,7 @@ skôr, než budeš čokoľvek meniť v schéme.
 | Hosting | WebSupport, služba `cintula.sk`, doména `pretoze.sk` |
 | Webový koreň | `/pretoze.sk/sub/prieskum/` (obsah priečinka `web/`) |
 | Údaje | `/pretoze.sk/udaje-prieskum/` (mimo webu, nedá sa stiahnuť) |
+| Nasadenie | `SSH_UID=... SSH_PORT=... npm run nasadit` |
 
 Poddoména je zámerne mimo WordPressu, ktorý beží na `www.pretoze.sk`. Odpadá tým
 Wordfence, ktorý si zapisuje IP adresy návštevníkov, aj prepisovacie pravidlá WordPressu.
@@ -105,11 +106,19 @@ Ak chceš len overiť, že prechod funguje, a nie merať čas:
 6. **Skúška.** Otvor `https://prieskum.pretoze.sk/api/zdravie`. Musí odpovedať
    `{"ok":true,...}`. Ak nie, je zle cesta k údajom alebo chýba `pdo_sqlite`.
 
-7. **Mazanie logov.** V správe WebSupportu pridaj úlohu CRON na každú noc:
+7. **Logy servera sa mazať nedajú.** Skúšané a overené: priečinok `logs` patrí systému
+   hostingu a náš účet v ňom nemá právo zápisu. Preto v textoch nikde netvrdíme, že
+   logy mažeme. Znenie, ktoré hovoríme ľuďom, je v [DATA.md](DATA.md). Ak chceš ísť
+   ďalej, požiadaj WebSupport o skrátenie doby držania logov alebo o ich vypnutie
+   pre túto poddoménu.
 
-        find /absolutna/cesta/pretoze.sk/logs -name 'access_log*' -mtime +0 -delete
+## Vymazanie skúšobných dát pred ostrým zberom
 
-   Prečo to tam je, vysvetľuje DATA.md. Bez toho nesedí to, čo hovoríme ľuďom.
+Kým sa 14. septembra začne zbierať naozaj, treba databázu vyprázdniť. Cez konzolu:
+
+    rm -f /cesta/pretoze.sk/udaje-prieskum/prieskum.sqlite
+
+Vyrobí sa nanovo pri prvej odpovedi. Nastavenia v `.env` ostávajú, tie sú v inom súbore.
 
 ## Zálohovanie databázy
 

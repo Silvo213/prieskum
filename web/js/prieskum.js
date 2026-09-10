@@ -552,6 +552,7 @@ async function start() {
   stav = novyStav(await pridelBlok());
   obrazovky = zostavObrazovky(stav.blok);
 
+  prvky.dalej.disabled = false;
   vykresliUvod();
   ukazFrontu();
   ulozisko.odosliFrontu().then(ukazFrontu).catch(() => {});
@@ -561,4 +562,15 @@ async function start() {
   }
 }
 
-start();
+start().catch((problem) => {
+  prvky.obsah.replaceChildren();
+  const oznam = document.createElement("div");
+  oznam.className = "chyba";
+  oznam.setAttribute("role", "alert");
+  oznam.textContent = "Dotazník sa nepodarilo načítať. Skúste stránku obnoviť.";
+  prvky.obsah.append(oznam);
+  prvky.dalej.textContent = "Skúsiť znova";
+  prvky.dalej.disabled = false;
+  prvky.dalej.addEventListener("click", () => location.reload(), { once: true });
+  console.error(problem);
+});

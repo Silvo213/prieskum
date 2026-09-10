@@ -52,16 +52,29 @@ aj overujú, takže sa obsah dotazníka a to, čo server prijme, nemôže rozís
 
 ## Čo je mimo našej kontroly a treba to povedať nahlas
 
-Prieskum beží na bežnom hostingu a **každý webový server si vedie prístupový log**.
-Sú v ňom IP adresa a presný čas každej požiadavky a rotuje sa asi dva týždne dozadu.
+Prieskum beží na zdieľanom hostingu a **každý webový server si vedie prístupový log**.
+Sú v ňom IP adresa a presný čas každej požiadavky a drží sa asi dva týždne dozadu.
 Tri odoslania jedného človeka prídu pár sekúnd po sebe z tej istej adresy, takže
-v tom logu tá väzba nakrátko existuje, mimo našej databázy a mimo nášho dosahu.
+v tom logu tá väzba nakrátko existuje, mimo našej databázy.
 
-Vypnúť sa to na zdieľanom hostingu nedá. Preto sa každú noc automaticky mažú
-rotované logy tejto stránky. Presné znenie, ktoré sa hovorí ľuďom, je:
-do databázy prieskumu sa IP adresa neukladá nikdy, technický log servera sa maže denne.
+**Zmazať to nevieme.** Overené na mieste: priečinok s logmi patrí systému hostingu,
+nie nášmu účtu, a náš používateľ v ňom nemá právo zápisu. Pôvodne sme na to chceli
+nočnú úlohu, tá sa ukázala ako neuskutočniteľná. Zostáva jediná poctivá cesta:
+povedať to presne tak, ako to je.
 
-Nehovoríme, že logy neexistujú. To by sa dalo overiť za minútu a nebola by to pravda.
+Presné znenie, ktoré sa hovorí ľuďom:
+
+> Do databázy prieskumu sa IP adresa neukladá nikdy. Server, na ktorom prieskum beží,
+> si ako každý web na svete vedie technický log s IP adresou a časom. Ten log patrí
+> poskytovateľovi hostingu, my sa k nemu nedostaneme a po približne dvoch týždňoch
+> sa prepíše sám.
+
+Nehovoríme, že logy neexistujú, a nehovoríme, že ich mažeme. Obidve vety by sa dali
+overiť a ani jedna by nebola pravda.
+
+**Čo sa s tým ešte dá urobiť:** požiadať poskytovateľa hostingu o skrátenie doby,
+po ktorú sa logy držia, prípadne o vypnutie prístupového logu pre túto poddoménu.
+Zatiaľ o to požiadané nebolo.
 
 ## Kto sa k tomu dostane a dokedy
 

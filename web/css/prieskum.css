@@ -348,6 +348,19 @@ textarea.pole { min-height: 7rem; resize: vertical; }
   margin-bottom: 1rem;
 }
 
+/* Vnorené štýly sú v .htaccess zakázané, preto tieto drobnosti majú triedu. */
+.vedla-seba { display: flex; gap: .5rem; align-items: center; }
+.odsadene { margin-top: .6rem; }
+.odsadene-viac { margin-top: 1rem; }
+.tlacidlo-odkaz { text-decoration: none; display: flex; align-items: center; }
+.odkaz-tlacidlo { display: inline-flex; align-items: center; text-decoration: none; }
+
+/* dlhší text na vlastnej stránke, napríklad ochrana údajov */
+.text h2 { font-family: var(--titulok); text-transform: uppercase; font-size: 1.25rem; margin: 2rem 0 .6rem; }
+.text p, .text li { margin-bottom: .8rem; }
+.text ul { padding-left: 1.4rem; }
+.text a { color: var(--ink); }
+
 /* ---------- pätička ---------- */
 
 .imprint {

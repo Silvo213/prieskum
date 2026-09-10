@@ -11,7 +11,8 @@
     "test:prehliadac": "node --no-warnings --test testy/dotaznik.test.mjs testy/offline.test.mjs",
     "qr": "node skripty/qr.mjs",
     "skusobne": "node skripty/skusobne-data.mjs",
-    "prototyp": "sh skripty/prototyp.sh"
+    "prototyp": "sh skripty/prototyp.sh",
+    "nasadit": "sh skripty/nasadit.sh"
   },
   "devDependencies": {
     "qrcode": "^1.5.4"

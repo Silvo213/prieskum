@@ -365,22 +365,9 @@ function martinskyZoznamHtml(): never
     <!DOCTYPE html><html lang="sk"><head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Martinský zoznam</title>
-    <link rel="stylesheet" href="../css/prieskum.css">
-    <style>
-      body { background: var(--zlta); }
-      .obsah { background: var(--biela); border: 3px solid var(--cierna); margin: 1.5rem auto; }
-      h1 { font-size: 2.2rem; }
-      h2 { font-family: var(--titulok); text-transform: uppercase; font-size: 1.2rem; margin: 2rem 0 .8rem; }
-      h3 { font-weight: 700; margin: 1.2rem 0 .3rem; }
-      table { width: 100%; border-collapse: collapse; }
-      td { padding: .5rem .4rem; border-bottom: 2px solid var(--cierna); }
-      td:first-child { width: 2.5rem; font-family: var(--titulok); }
-      td:last-child { width: 4rem; text-align: right; font-weight: 700; }
-      ol { padding-left: 1.4rem; }
-      li { margin-bottom: .3rem; }
-      .pocet { font-weight: 700; }
-      .zdroj { font-size: .8rem; margin-top: 2rem; }
-    </style></head><body><main class="obsah">
+    <link rel="stylesheet" href="/css/prieskum.css">
+    <link rel="stylesheet" href="/css/zoznam.css">
+    </head><body><main class="obsah">
     <h1>Martinský zoznam</h1>
     <p>Čo majú Martinčania za prvé. Zostavené z {$z['zoOdpovedi']} odpovedí.</p>
     <h2>Čo má mesto riešiť ako prvé</h2><table>{$riadky}</table>

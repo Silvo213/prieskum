@@ -12,23 +12,17 @@
 <link rel="icon" href="assets/favicon-256.png" sizes="256x256">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="css/prieskum.css">
-<style>
-  .obsah h2 { font-family: var(--titulok); text-transform: uppercase; font-size: 1.25rem; margin: 2rem 0 .6rem; }
-  .obsah p, .obsah li { margin-bottom: .8rem; }
-  .obsah ul { padding-left: 1.4rem; }
-  .obsah a { color: var(--ink); }
-</style>
 </head>
 <body>
 
 <header class="hlavicka">
   <div class="hlavicka__pas">
     <p class="znacka">Aký Martin<br>chceme</p>
-    <a href="index.html" class="zvacsi" style="text-decoration:none; display:flex; align-items:center;">Späť na dotazník</a>
+    <a href="index.html" class="zvacsi tlacidlo-odkaz">Späť na dotazník</a>
   </div>
 </header>
 
-<main class="obsah">
+<main class="obsah text">
   <h1>Ochrana údajov</h1>
 
   <p><strong>Kto údaje spracúva:</strong> Pavol Zemko, A. Pietra 10645/19, 036 01 Martin,
@@ -66,8 +60,10 @@
   <ul>
     <li>IP adresu neukladáme do databázy prieskumu nikdy. Aby sa z jedného zariadenia nedal
     dotazník poslať donekonečna, počíta sa len jej odtlačok s náhodnou soľou, ktorá sa každý
-    deň zahodí a nahradí novou.</li>
-    <li>Technický log servera, ktorý si vedie každý web na svete, sa maže denne.</li>
+    deň zahodí a nahradí novou. Z odtlačku sa pôvodná adresa zistiť nedá.</li>
+    <li>Server, na ktorom prieskum beží, si ako každý web na svete vedie technický log
+    s IP adresou a časom. Ten log patrí poskytovateľovi hostingu, my sa k nemu nedostaneme
+    a po približne dvoch týždňoch sa prepíše sám. Nehovoríme, že neexistuje.</li>
     <li>Žiadne cookies okrem jednej technickej pri prihlásení do správy prieskumu.</li>
     <li>Žiadne meranie návštevnosti, žiadny cudzí skript, žiadne písmo z internetu.
     Celá stránka sa načíta z jedného servera a nikam inam sa neobracia.</li>
@@ -97,7 +93,7 @@
 <div class="imprint">
   <div class="imprint__pas">
     <p><a href="index.html">Späť na dotazník</a></p>
-    <p style="margin-top:.6rem;">Toto je politické reklamné oznámenie. Objednávateľ: Zemko Pavol, A. Pietra 10645/19, 036 01 Martin, Slovensko · Dodávateľ: [doplní tím podľa § 15 zákona č. 181/2014 Z. z.]</p>
+    <p class="odsadene">Toto je politické reklamné oznámenie. Objednávateľ: Zemko Pavol, A. Pietra 10645/19, 036 01 Martin, Slovensko · Dodávateľ: [doplní tím podľa § 15 zákona č. 181/2014 Z. z.]</p>
   </div>
 </div>
 
