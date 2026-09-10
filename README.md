@@ -164,6 +164,18 @@ z OpenStreetMap. Aplikácia sama nikam nevolá. Ak by ho bolo treba obnoviť:
 
     npm run ulice
 
+## GitHub
+
+Aplikácia má vlastný repozitár <https://github.com/Silvo213/prieskum>. Je v ňom len
+priečinok `prieskum-app/`, nič z vnútra kampane. Vzniká cez subtree, takže ďalšie
+zmeny sa posielajú z koreňa kampaňového repozitára takto:
+
+    git subtree push --prefix=prieskum-app prieskum main
+
+Pozor, ten repozitár je verejný. Nikdy doň nesmie prísť `udaje/`, `.env` ani nič,
+čo obsahuje heslá alebo odpovede respondentov. Zabraňuje tomu `.gitignore`,
+ale pred nahratím sa to oplatí skontrolovať.
+
 ## Čo tu zámerne nie je
 
 Žiadny framework, žiadny bundler, žiadny Docker, žiadne skladanie. Nahrá sa to FTP-čkom
