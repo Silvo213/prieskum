@@ -46,19 +46,25 @@ function odpovede(pismeno) {
     for (const otazka of blok.otazky ?? []) {
       if (otazka.format === "jedna") von[otazka.id] = nahodne(otazka.moznosti);
       else if (otazka.format === "viac") von[otazka.id] = [...otazka.moznosti].sort(() => Math.random() - 0.5).slice(0, otazka.pocet);
-      else if (otazka.id === "b1q3") von[otazka.id] = nahodne(HNEVA);
-      else if (otazka.id === "b4q1") von[otazka.id] = nahodne(ULICA);
+      else if (otazka.uloha === "co-hneva") von[otazka.id] = nahodne(HNEVA);
+      else if (otazka.uloha === "ulica-text") von[otazka.id] = nahodne(ULICA);
       else if (otazka.format === "ulica") von[otazka.id] = nahodne(["Kollárova", "Priekopská", "Ľaukovská", "Východná", "Sučianska"]);
     }
   }
   return von;
 }
 
-const moznosti = (id) => {
+const moznostiPreStlpec = (stlpec) => {
   for (const blok of DOTAZNIK.bloky) {
-    for (const otazka of blok.otazky ?? []) if (otazka.id === id) return otazka.moznosti;
+    for (const otazka of blok.otazky ?? []) if (otazka.stlpec === stlpec) return otazka.moznosti ?? [];
   }
   return [];
+};
+const otazkaPreStlpec = (stlpec) => {
+  for (const blok of DOTAZNIK.bloky) {
+    for (const otazka of blok.otazky ?? []) if (otazka.stlpec === stlpec) return otazka.id;
+  }
+  return null;
 };
 
 async function posli(cesta, telo) {
@@ -91,10 +97,10 @@ for (let i = 0; i < KOLKO; i++) {
 
   if (Math.random() < 0.7) {
     await posli("/api/anketa", {
-      kandidat: nahodne(moznosti("b7q1")),
-      ucast: nahodne(moznosti("b7q2")),
-      mestska_cast: veci.b6q1 ?? null,
-      vek: veci.b6q2 ?? null,
+      kandidat: nahodne(moznostiPreStlpec("kandidat")),
+      ucast: nahodne(moznostiPreStlpec("ucast")),
+      mestska_cast: veci[otazkaPreStlpec("mestska_cast")] ?? null,
+      vek: veci[otazkaPreStlpec("vek")] ?? null,
     });
   }
   if (Math.random() < 0.5) {

@@ -3,7 +3,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
-import { spustiServer, posli, uuid4, platneOdpovede, moznosti } from "./pomocky.mjs";
+import { spustiServer, posli, uuid4, platneOdpovede, moznosti, prvaOtvorena } from "./pomocky.mjs";
 
 async function odosli(server, { zdroj = "teren", tim = "TIM1", trvanie = 200, prepis = {} } = {}) {
   const { telo: { blok } } = await posli(server.adresa, "/api/blok", null, "GET");
@@ -121,7 +121,7 @@ test("odpoveď mimo ponuky sa odmietne", async (t) => {
 
   const { telo: { blok } } = await posli(server.adresa, "/api/blok", null, "GET");
   const odpovede = platneOdpovede(blok);
-  odpovede.b1q1 = "vymyslená odpoveď";
+  odpovede[prvaOtvorena().id] = "vymyslená odpoveď";
 
   const o = await posli(server.adresa, "/api/odpovede", {
     id: uuid4(), zdroj: "teren", tim_kod: "TIM1", rotujuci_blok: blok, trvanie_s: 200, odpovede,

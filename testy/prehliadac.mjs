@@ -60,6 +60,10 @@ export function casNaPrecitanie(text) {
 
 /* Vyplní jednu obrazovku tak, ako by to robil človek: najprv si prečíta,
    čo je na nej, potom klepe. */
+/* Väčšina ľudí otvorenú otázku preskočí, sú dobrovoľné. Prepínač
+   PRIESKUM_OTVORENE=0 meria taký priebeh, teda ten obvyklý. */
+const PISE_OTVORENE = process.env.PRIESKUM_OTVORENE !== "0";
+
 export async function vyplnObrazovku(strana) {
   const textNaObrazovke = await strana.locator("#obsah").innerText();
   const pocetMoznosti = await strana.locator("#obsah .odpoved").count();
@@ -68,6 +72,7 @@ export async function vyplnObrazovku(strana) {
   await spi(pocetMoznosti * MS_NA_MOZNOST);
 
   for (const pole of await strana.locator("#obsah textarea").all()) {
+    if (!PISE_OTVORENE) continue;
     await pole.fill("Chodník pred domom je rozbitý roky a nikto s tým nič nerobí.");
     await spi(MS_PISANIE);
   }

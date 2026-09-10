@@ -97,7 +97,8 @@ test("celý dotazník sa dá ovládať klávesnicou", { timeout: 600000 }, async
 
   await p.strana.keyboard.press("Enter");            // Začať
   await p.strana.waitForTimeout(300);
-  assert.equal(await p.strana.locator("#postup-text").textContent(), "1 z 11");
+  /* Počet obrazoviek sa mení s obsahom, preto sa neporovnáva s číslom. */
+  assert.match(await p.strana.locator("#postup-text").textContent(), /^1 z \d+$/);
 
   /* Tabulátorom sa dá dôjsť na prvú odpoveď a medzerníkom ju vybrať. */
   for (let i = 0; i < 12; i++) {

@@ -163,6 +163,23 @@ h2.otazka {
   margin-bottom: 0.3rem;
 }
 
+/* Názov bloku nad skupinou otázok. Musí byť menší než samotná otázka,
+   inak čitateľ nevie, čo je nadpis sekcie a čo otázka. */
+.sekcia {
+  font-family: var(--titulok);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cierna);
+  margin-bottom: 0.2rem;
+}
+.sekcia__uvod {
+  font-size: 0.95rem;
+  margin-bottom: 1.4rem;
+  padding-bottom: 1rem;
+  border-bottom: var(--ram) solid var(--cierna);
+}
+
 .napoveda {
   font-size: 0.95rem;
   color: var(--ink);

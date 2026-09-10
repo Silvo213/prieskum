@@ -70,15 +70,20 @@ function zostavObrazovky(pismeno) {
       continue;
     }
 
-    /* Krátke otázky na jedno klepnutie idú spolu, dlhé majú vlastnú obrazovku.
-       Šetrí to klikanie a drží päťminútový rozpočet. */
+    /* Otázky jedného bloku sú na jednej obrazovke. Kde to je priveľa naraz,
+       má otázka v questions.json príznak samostatne a začne novú obrazovku.
+       Rozdelenie je tak v obsahu, nie schované v kóde. */
     let skupina = [];
+    const uloz = () => {
+      if (!skupina.length) return;
+      zoznam.push({ druh: "otazky", otazky: skupina, nazov: blok.nazov, uvod: blok.uvod });
+      skupina = [];
+    };
     for (const otazka of blok.otazky ?? []) {
-      if (otazka.format === "jedna") { skupina.push(otazka); continue; }
-      if (skupina.length) { zoznam.push({ druh: "otazky", otazky: skupina, nazov: blok.nazov }); skupina = []; }
-      zoznam.push({ druh: "otazky", otazky: [otazka], nazov: blok.nazov });
+      if (otazka.samostatne === true) uloz();
+      skupina.push(otazka);
     }
-    if (skupina.length) zoznam.push({ druh: "otazky", otazky: skupina, nazov: blok.nazov });
+    uloz();
   }
 
   zoznam.push({ druh: "anketa", blok: dotaznik.bloky.find((b) => b.ulozisko === "anketa") });
@@ -207,6 +212,10 @@ function vykresliKrok() {
       vykresliKontakt(obrazovka.blok, zmena);
       break;
     default:
+      if (obrazovka.uvod) {
+        prvky.obsah.append(p("p", "sekcia", obrazovka.nazov));
+        prvky.obsah.append(p("p", "sekcia__uvod", obrazovka.uvod));
+      }
       for (const otazka of obrazovka.otazky) {
         prvky.obsah.append(vykresliOtazku(otazka, stav, zmena, ulice));
       }

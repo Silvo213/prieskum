@@ -5,7 +5,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
-import { spustiServer, posli, uuid4, platneOdpovede, moznosti } from "./pomocky.mjs";
+import { spustiServer, posli, uuid4, platneOdpovede, moznostiPreStlpec } from "./pomocky.mjs";
 
 test("tri odoslania, tri tabuľky, žiadny spoločný kľúč", async (t) => {
   const server = await spustiServer();
@@ -23,8 +23,8 @@ test("tri odoslania, tri tabuľky, žiadny spoločný kľúč", async (t) => {
   assert.equal(dotaznik.stav, 200, JSON.stringify(dotaznik.telo));
 
   const anketa = await posli(server.adresa, "/api/anketa", {
-    kandidat: moznosti("b7q1")[0], ucast: moznosti("b7q2")[0],
-    mestska_cast: moznosti("b6q1")[0], vek: moznosti("b6q2")[0],
+    kandidat: moznostiPreStlpec("kandidat")[0], ucast: moznostiPreStlpec("ucast")[0],
+    mestska_cast: moznostiPreStlpec("mestska_cast")[0], vek: moznostiPreStlpec("vek")[0],
   });
   assert.equal(anketa.stav, 200, JSON.stringify(anketa.telo));
 
@@ -112,7 +112,7 @@ test("anketa odmietne pole, ktoré by ju s niečím spájalo", async (t) => {
   t.after(() => server.zastav());
 
   const pokus = await posli(server.adresa, "/api/anketa", {
-    kandidat: moznosti("b7q1")[0],
+    kandidat: moznostiPreStlpec("kandidat")[0],
     odpoved_id: uuid4(),
   });
   assert.equal(pokus.stav, 422, "server má takú požiadavku odmietnuť");

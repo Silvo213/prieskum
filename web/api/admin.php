@@ -285,11 +285,30 @@ function martinskyZoznam(): never
     posli(zostavMartinskyZoznam());
 }
 
+/* Otázky sa hľadajú podľa úlohy, ktorú majú v questions.json, nie podľa
+   poradového čísla. Prečíslovanie dotazníka tak zoznam nerozbije. */
+function otazkaPodlaUlohy(string $uloha): ?string
+{
+    foreach (dotaznik()['bloky'] as $blok) {
+        foreach ($blok['otazky'] ?? [] as $otazka) {
+            if (($otazka['uloha'] ?? '') === $uloha) {
+                return $otazka['id'];
+            }
+        }
+    }
+    return null;
+}
+
 function zostavMartinskyZoznam(): array
 {
+    $temy      = otazkaPodlaUlohy('priority-temy');
+    $projekty  = otazkaPodlaUlohy('priority-projekty');
+    $ulicaText = otazkaPodlaUlohy('ulica-text');
+    $ulicaMeno = otazkaPodlaUlohy('ulica-nazov');
+
     $riadky = db()->query('SELECT mestska_cast, odpovede_json FROM odpovede WHERE neplatne = 0')->fetchAll();
 
-    $celkom = ['b2q1' => [], 'b2q2' => []];
+    $celkom = [$temy => [], $projekty => []];
     $poCastiach = [];
     $ulice = [];
 
@@ -297,18 +316,21 @@ function zostavMartinskyZoznam(): array
         $obsah = json_decode($riadok['odpovede_json'], true) ?: [];
         $cast = $riadok['mestska_cast'] ?? 'neuvedené';
 
-        foreach (['b2q1', 'b2q2'] as $otazka) {
+        foreach ([$temy, $projekty] as $otazka) {
+            if ($otazka === null) {
+                continue;
+            }
             foreach ((array) ($obsah[$otazka] ?? []) as $vec) {
                 $celkom[$otazka][$vec] = ($celkom[$otazka][$vec] ?? 0) + 1;
-                if ($otazka === 'b2q1') {
+                if ($otazka === $temy) {
                     $poCastiach[$cast][$vec] = ($poCastiach[$cast][$vec] ?? 0) + 1;
                 }
             }
         }
 
-        $text = trim((string) ($obsah['b4q1'] ?? ''));
+        $text = $ulicaText === null ? '' : trim((string) ($obsah[$ulicaText] ?? ''));
         if ($text !== '') {
-            $ulice[$cast][] = ['text' => $text, 'ulica' => $obsah['b4q2'] ?? null];
+            $ulice[$cast][] = ['text' => $text, 'ulica' => $ulicaMeno === null ? null : ($obsah[$ulicaMeno] ?? null)];
         }
     }
 
@@ -328,8 +350,8 @@ function zostavMartinskyZoznam(): array
     ksort($tri);
 
     return [
-        'coPrve'      => $zoradene($celkom['b2q1']),
-        'trojeVelke'  => $zoradene($celkom['b2q2']),
+        'coPrve'      => $zoradene($celkom[$temy] ?? []),
+        'trojeVelke'  => $zoradene($celkom[$projekty] ?? []),
         'poCastiach'  => $tri,
         'ulice'       => $ulice,
         'zoOdpovedi'  => count($riadky),

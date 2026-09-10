@@ -108,6 +108,9 @@ function ulozOdpoved(): never
              mestska_cast, vek, pohlavie, odpovede_json, trvanie_s, podozrive)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     );
+    $stlpce = stlpceOdpovedi();
+    $zOdpovedi = fn(string $stlpec) => isset($stlpce[$stlpec]) ? ($odpovede[$stlpce[$stlpec]] ?? null) : null;
+
     $vloz->execute([
         $id,
         terazIso(),
@@ -115,9 +118,9 @@ function ulozOdpoved(): never
         $timKod,
         is_string($miesto) ? $miesto : null,
         $blok,
-        $odpovede['b6q1'] ?? null,
-        $odpovede['b6q2'] ?? null,
-        $odpovede['b6q3'] ?? null,
+        $zOdpovedi('mestska_cast'),
+        $zOdpovedi('vek'),
+        $zOdpovedi('pohlavie'),
         (string) json_encode($odpovede, JSON_UNESCAPED_UNICODE),
         $trvanie,
         $podozrive,
@@ -203,8 +206,27 @@ function ulozAnketu(): never
     $data = telo();
     lenTietoPolia($data, ['kandidat', 'ucast', 'mestska_cast', 'vek']);
 
+    /* Ktorá otázka patrí ku ktorému stĺpcu ankety, hovorí questions.json. */
+    $ankOtazky = [];
+    foreach (dotaznik()['bloky'] as $blok) {
+        if (($blok['ulozisko'] ?? '') !== 'anketa') {
+            continue;
+        }
+        foreach ($blok['otazky'] ?? [] as $otazka) {
+            if (isset($otazka['stlpec'])) {
+                $ankOtazky[$otazka['stlpec']] = $otazka['id'];
+            }
+        }
+    }
+    $dvojice = [
+        'kandidat'     => $ankOtazky['kandidat'] ?? '',
+        'ucast'        => $ankOtazky['ucast'] ?? '',
+        'mestska_cast' => otazkaPreStlpec('mestska_cast') ?? '',
+        'vek'          => otazkaPreStlpec('vek') ?? '',
+    ];
+
     $hodnoty = [];
-    foreach (['kandidat' => 'b7q1', 'ucast' => 'b7q2', 'mestska_cast' => 'b6q1', 'vek' => 'b6q2'] as $pole => $otazka) {
+    foreach ($dvojice as $pole => $otazka) {
         $hodnota = $data[$pole] ?? null;
         if ($hodnota === null || $hodnota === '') {
             $hodnoty[$pole] = null;
@@ -286,6 +308,33 @@ function ulozKontakt(): never
     }
 
     posli(['ok' => true]);
+}
+
+/* Ktorá otázka plní ktorý stĺpec. Berie sa to z questions.json podľa poľa
+   stlpec, takže prečíslovanie otázok nič nerozbije. */
+function stlpceOdpovedi(): array
+{
+    static $mapa = null;
+    if ($mapa !== null) {
+        return $mapa;
+    }
+    $mapa = [];
+    foreach (dotaznik()['bloky'] as $blok) {
+        if (($blok['ulozisko'] ?? '') !== 'odpovede') {
+            continue;
+        }
+        foreach ($blok['otazky'] ?? [] as $otazka) {
+            if (isset($otazka['stlpec'])) {
+                $mapa[$otazka['stlpec']] = $otazka['id'];
+            }
+        }
+    }
+    return $mapa;
+}
+
+function otazkaPreStlpec(string $stlpec): ?string
+{
+    return stlpceOdpovedi()[$stlpec] ?? null;
 }
 
 function moznostiOtazky(string $id): array

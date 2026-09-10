@@ -42,6 +42,26 @@ export async function spustiServer() {
   };
 }
 
+/* Server môže práve zapisovať, vtedy je súbor zamknutý. Pri čítaní z testu
+   sa preto skúša znova, nie je to chyba aplikácie. */
+export async function precitaj(cesta, praca, pokusov = 20) {
+  const { DatabaseSync } = await import("node:sqlite");
+  let posledna;
+  for (let i = 0; i < pokusov; i++) {
+    let db;
+    try {
+      db = new DatabaseSync(cesta, { readOnly: true });
+      return praca(db);
+    } catch (chyba) {
+      posledna = chyba;
+      await new Promise((r) => setTimeout(r, 250));
+    } finally {
+      try { db?.close(); } catch { /* už zavretá */ }
+    }
+  }
+  throw posledna;
+}
+
 export async function posli(adresa, cesta, telo, sposob = "POST") {
   const bezTela = sposob === "GET" || sposob === "HEAD";
   const o = await fetch(adresa + cesta, {
@@ -85,4 +105,25 @@ export function moznosti(id) {
     for (const otazka of blok.otazky ?? []) if (otazka.id === id) return otazka.moznosti ?? [];
   }
   return [];
+}
+
+/* Otázky sa hľadajú podľa stĺpca, ktorý plnia, nie podľa čísla.
+   Prečíslovanie dotazníka tak testy nerozbije. */
+export function otazkaPreStlpec(stlpec) {
+  for (const blok of DOTAZNIK.bloky) {
+    for (const otazka of blok.otazky ?? []) if (otazka.stlpec === stlpec) return otazka;
+  }
+  throw new Error(`v questions.json nie je otázka pre stĺpec ${stlpec}`);
+}
+
+export function moznostiPreStlpec(stlpec) {
+  return otazkaPreStlpec(stlpec).moznosti ?? [];
+}
+
+export function prvaOtvorena() {
+  for (const blok of DOTAZNIK.bloky) {
+    if (blok.typ === "bonus") continue;
+    for (const otazka of blok.otazky ?? []) if (otazka.format === "jedna") return otazka;
+  }
+  throw new Error("v questions.json nie je zatvorená otázka");
 }

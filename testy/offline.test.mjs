@@ -9,7 +9,7 @@ import os from "node:os";
 import path from "node:path";
 import { chromium } from "playwright-core";
 import { DatabaseSync } from "node:sqlite";
-import { spustiServer } from "./pomocky.mjs";
+import { spustiServer, precitaj } from "./pomocky.mjs";
 
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
@@ -81,9 +81,9 @@ test("päť dotazníkov bez signálu prežije zavretie prehliadača", { timeout:
   });
   assert.equal(cakajucich, 5, "všetkých päť musí čakať vo fronte");
 
-  const db1 = new DatabaseSync(server.databaza, { readOnly: true });
-  assert.equal(db1.prepare("SELECT count(*) AS n FROM odpovede").get().n, 0, "bez signálu sa neuložilo nič");
-  db1.close();
+  assert.equal(
+    await precitaj(server.databaza, (db) => db.prepare("SELECT count(*) AS n FROM odpovede").get().n),
+    0, "bez signálu sa neuložilo nič");
 
   /* --- zavretie prehliadača --- */
   await tablet.close();
@@ -100,9 +100,7 @@ test("päť dotazníkov bez signálu prežije zavretie prehliadača", { timeout:
   /* Čaká sa na to, čo sa naozaj overuje: päť riadkov v databáze na serveri.
      Prázdna fronta v prehliadači by bola len nepriamy odhad. */
   for (let pokus = 0; pokus < 60; pokus++) {
-    const db = new DatabaseSync(server.databaza, { readOnly: true });
-    const kolko = db.prepare("SELECT count(*) AS n FROM odpovede").get().n;
-    db.close();
+    const kolko = await precitaj(server.databaza, (db) => db.prepare("SELECT count(*) AS n FROM odpovede").get().n);
     if (kolko >= 5) break;
     await strana.waitForTimeout(500);
   }
@@ -114,11 +112,11 @@ test("päť dotazníkov bez signálu prežije zavretie prehliadača", { timeout:
   assert.equal(voFronte.caka, 0, "fronta musí byť prázdna");
   assert.equal(voFronte.zlyhane, 0, "nič sa nesmelo odložiť ako odmietnuté");
 
-  const db2 = new DatabaseSync(server.databaza, { readOnly: true });
-  const pocet = db2.prepare("SELECT count(*) AS n FROM odpovede").get().n;
-  const zTerenu = db2.prepare("SELECT count(*) AS n FROM odpovede WHERE zdroj = 'teren' AND tim_kod = 'TIM1'").get().n;
-  const miesta = db2.prepare("SELECT DISTINCT miesto_zberu FROM odpovede").all().map((r) => r.miesto_zberu);
-  db2.close();
+  const { pocet, zTerenu, miesta } = await precitaj(server.databaza, (db) => ({
+    pocet: db.prepare("SELECT count(*) AS n FROM odpovede").get().n,
+    zTerenu: db.prepare("SELECT count(*) AS n FROM odpovede WHERE zdroj = 'teren' AND tim_kod = 'TIM1'").get().n,
+    miesta: db.prepare("SELECT DISTINCT miesto_zberu FROM odpovede").all().map((r) => r.miesto_zberu),
+  }));
   await tablet.close();
 
   assert.equal(pocet, 5, "po pripojení sa musia odoslať všetky");
