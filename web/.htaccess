@@ -34,3 +34,14 @@ DirectoryIndex index.html
 <FilesMatch "\.(sqlite|sqlite3|db|env|log)$">
   Require all denied
 </FilesMatch>
+
+# ---- DOČASNÉ ZAVRETIE PRED VEREJNOSŤOU ----
+# Prieskum ide von 14. 9. 2026. Dovtedy sem nikto cudzí nemá vidieť.
+# Heslo je v súbore .htpasswd v priečinku s údajmi, teda mimo webu.
+# Cestu doplní skript pri nasadení, preto tu je zástupný text.
+#
+# ZRUŠENIE PRED SPUSTENÍM: zmaž celý tento blok a nasaď novú verziu.
+AuthType Basic
+AuthName "Prieskum sa spusti 14. septembra"
+AuthUserFile CESTA_K_HTPASSWD
+Require valid-user

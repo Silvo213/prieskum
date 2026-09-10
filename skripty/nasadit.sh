@@ -29,9 +29,21 @@ $SSH "mkdir -p '$DOM/sub/prieskum' '$DOM/udaje-prieskum' && chmod 750 '$DOM/udaj
 tar -czf - -C web . 2>/dev/null | $SSH "tar -xzf - -C '$DOM/sub/prieskum' 2>/dev/null"
 
 # Cesta k údajom musí byť v .htaccess absolútna
-$SSH "cd '$DOM/sub/prieskum' && sed -i 's|^# *SetEnv PRIESKUM_UDAJE .*|SetEnv PRIESKUM_UDAJE $DOM/udaje-prieskum|' .htaccess && grep -q '^SetEnv PRIESKUM_UDAJE' .htaccess && echo 'cesta k údajom nastavená'"
+$SSH "cd '$DOM/sub/prieskum' \
+  && sed -i 's|^# *SetEnv PRIESKUM_UDAJE .*|SetEnv PRIESKUM_UDAJE $DOM/udaje-prieskum|' .htaccess \
+  && sed -i 's|^AuthUserFile CESTA_K_HTPASSWD\$|AuthUserFile $DOM/udaje-prieskum/.htpasswd|' .htaccess \
+  && grep -q '^SetEnv PRIESKUM_UDAJE' .htaccess && echo 'cesta k údajom nastavená'
+  if grep -q '^AuthUserFile ' .htaccess; then echo 'stránka je zavretá heslom'; else echo 'stránka je verejná'; fi"
 
 echo "Skúšam, či to žije:"
-curl -s --max-time 20 https://prieskum.pretoze.sk/api/zdravie
-echo
+STAV=$(curl -s --max-time 20 -o /dev/null -w '%{http_code}' https://prieskum.pretoze.sk/api/zdravie)
+if [ "$STAV" = "401" ]; then
+  echo "  401 — stránka je zavretá heslom, to je zatiaľ správne."
+  if [ -n "$HESLO_STRANKY" ]; then
+    echo "  s heslom: $(curl -s --max-time 20 -u "prieskum:$HESLO_STRANKY" https://prieskum.pretoze.sk/api/zdravie)"
+  fi
+else
+  curl -s --max-time 20 https://prieskum.pretoze.sk/api/zdravie
+  echo
+fi
 echo "Hotovo. https://prieskum.pretoze.sk/"

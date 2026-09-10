@@ -112,6 +112,21 @@ Ak chceš len overiť, že prechod funguje, a nie merať čas:
    ďalej, požiadaj WebSupport o skrátenie doby držania logov alebo o ich vypnutie
    pre túto poddoménu.
 
+## Stránka je zatiaľ zavretá heslom
+
+Do 14. septembra nemá prieskum vidieť nikto cudzí. Celá poddoména je preto za
+heslom. Kto nemá heslo, dostane od servera 401 a nič viac.
+
+Heslo drží súbor `udaje-prieskum/.htpasswd`, ktorý leží mimo webu. Pravidlá sú
+v `web/.htaccess` v bloku na konci, takže zavretie prežije aj nasadenie novej verzie.
+
+**Otvorenie verejnosti 14. septembra:** zmaž z `web/.htaccess` celý blok označený
+`DOČASNÉ ZAVRETIE PRED VEREJNOSŤOU` a nasaď novú verziu. Overenie, že je otvorené:
+
+    curl -s -o /dev/null -w '%{http_code}\n' https://prieskum.pretoze.sk/
+
+Musí odpovedať 200. Kým odpovedá 401, prieskum je zavretý.
+
 ## Vymazanie skúšobných dát pred ostrým zberom
 
 Kým sa 14. septembra začne zbierať naozaj, treba databázu vyprázdniť. Cez konzolu:
