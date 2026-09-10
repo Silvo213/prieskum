@@ -34,7 +34,9 @@ if [ ! -f udaje/.env ]; then
 fi
 
 pkill -f "php -S 0.0.0.0:8123" 2>/dev/null || true
-"$PHP" -S 0.0.0.0:8123 -t web skripty/server.php > /tmp/prieskum-prototyp.log 2>&1 &
+# nohup, aby server prežil zavretie okna aj koniec sedenia
+nohup "$PHP" -S 0.0.0.0:8123 -t web skripty/server.php > /tmp/prieskum-prototyp.log 2>&1 &
+disown 2>/dev/null || true
 
 until curl -s -o /dev/null http://127.0.0.1:8123/api/zdravie 2>/dev/null; do sleep 1; done
 
@@ -45,13 +47,22 @@ if [ "$1" = "--nanovo" ]; then
 fi
 
 IP=$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null || echo localhost)
+NAZOV=$(scutil --get LocalHostName 2>/dev/null)
+
 echo
 echo "Prototyp beží."
-echo "  Dotazník        http://$IP:8123/"
-echo "  Terénny tablet  http://$IP:8123/t/TIM1"
-echo "  Správa          http://$IP:8123/admin/    silvo / prieskum2026"
-echo "  Anketa          druhé heslo: anketa2026"
-echo "  Ochrana údajov  http://$IP:8123/udaje.html"
 echo
-echo "Z mobilu na tej istej wifi použi adresu s $IP."
+echo "Z tohto Macu:"
+echo "  Dotazník        http://localhost:8123/"
+echo "  Terénny tablet  http://localhost:8123/t/TIM1"
+echo "  Správa          http://localhost:8123/admin/"
+echo
+echo "Z mobilu alebo tabletu na tej istej sieti:"
+if [ -n "$NAZOV" ]; then
+  echo "  http://$NAZOV.local:8123/"
+  echo "  (tento názov sa nemení, aj keď sa zmení wifi)"
+fi
+echo "  http://$IP:8123/          (IP sa mení pri každej zmene siete)"
+echo
+echo "Prihlásenie do správy: silvo / prieskum2026, druhé heslo k ankete: anketa2026"
 echo "Zastavíš to príkazom: pkill -f 'php -S 0.0.0.0:8123'"
