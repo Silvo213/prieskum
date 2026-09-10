@@ -4,6 +4,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
 import { otvorPrieskum, vyplnObrazovku, spi, casNaPrecitanie, cakanie, KLIK, PISANIE } from "./prehliadac.mjs";
+import { moznostiPreStlpec } from "./pomocky.mjs";
 
 async function prejdiCelyDotaznik(strana, { kontakt = true, anketa = true } = {}) {
   await spi(casNaPrecitanie(await strana.locator("#obsah").innerText()));
@@ -37,6 +38,42 @@ async function prejdiCelyDotaznik(strana, { kontakt = true, anketa = true } = {}
   }
 }
 
+/* Správnosť sa overuje vždy a rýchlo. Meranie času je samostatný test,
+   lebo trvá päť minút, a obsahová chyba sa zaň nesmie schovať. */
+test("po vyplnení sedí obsah vo všetkých troch tabuľkách", { timeout: 600000 }, async (t) => {
+  const p = await otvorPrieskum();
+  t.after(() => p.zavri());
+
+  await prejdiCelyDotaznik(p.strana);
+  await p.strana.waitForSelector("#obsah h1");
+  assert.equal(await p.strana.locator("#obsah h1").textContent(), "Ďakujeme");
+  await p.strana.waitForTimeout(1500);
+
+  const db = new DatabaseSync(p.server.databaza, { readOnly: true });
+  const riadok = db.prepare("SELECT * FROM odpovede").get();
+  const anketa = db.prepare("SELECT * FROM anketa").get();
+  assert.equal(db.prepare("SELECT count(*) AS n FROM odpovede").get().n, 1, "dotazník sa musí uložiť");
+  assert.equal(db.prepare("SELECT count(*) AS n FROM anketa").get().n, 1, "anketa sa musí uložiť");
+  assert.equal(db.prepare("SELECT count(*) AS n FROM kontakty").get().n, 1, "kontakt sa musí uložiť");
+  db.close();
+
+  /* Server nesmel nič odmietnuť. Odmietnutá odpoveď mizne ticho a v teréne
+     by na to neprišiel nikto až do vyhodnotenia. */
+  const odmietnute = await p.strana.evaluate(async () => {
+    const { zlyhane } = await import("/js/ulozisko.js");
+    return (await zlyhane()).map((z) => `${z.poziadavka.cesta} ${z.stav} ${z.dovod}`);
+  });
+  assert.deepEqual(odmietnute, [], "server nesmie odmietnuť ani jedno odoslanie");
+
+  /* Hodnoty musia byť z ponuky dotazníka, nie text z inej otázky.
+     Presne toto sa pri prečíslovaní otázok pokazilo. */
+  assert.ok(moznostiPreStlpec("kandidat").includes(anketa.kandidat), `kandidát „${anketa.kandidat}" nie je z ponuky`);
+  assert.ok(moznostiPreStlpec("mestska_cast").includes(anketa.mestska_cast), `mestská časť v ankete „${anketa.mestska_cast}" nie je z ponuky`);
+  assert.ok(moznostiPreStlpec("vek").includes(anketa.vek), `vek v ankete „${anketa.vek}" nie je z ponuky`);
+  assert.ok(moznostiPreStlpec("mestska_cast").includes(riadok.mestska_cast), "mestská časť v odpovediach nie je z ponuky");
+  assert.ok(moznostiPreStlpec("vek").includes(riadok.vek), "vek v odpovediach nie je z ponuky");
+});
+
 test("celý dotazník sa vyplní do piatich minút", {
   timeout: 600000,
   /* S vypnutými pauzami by test meral rýchlosť prehliadača, nie človeka. */
@@ -50,20 +87,8 @@ test("celý dotazník sa vyplní do piatich minút", {
   const sekundy = Math.round((Date.now() - zaciatok) / 1000);
 
   await p.strana.waitForSelector("#obsah h1");
-  assert.equal(await p.strana.locator("#obsah h1").textContent(), "Ďakujeme");
-
   console.log(`      vyplnenie trvalo ${sekundy} s`);
   assert.ok(sekundy <= 300, `vyplnenie trvalo ${sekundy} s, rozpočet je 300 s`);
-
-  await p.strana.waitForTimeout(1500);
-  const db = new DatabaseSync(p.server.databaza, { readOnly: true });
-  const riadok = db.prepare("SELECT * FROM odpovede").get();
-  assert.equal(db.prepare("SELECT count(*) AS n FROM odpovede").get().n, 1);
-  assert.equal(db.prepare("SELECT count(*) AS n FROM anketa").get().n, 1);
-  assert.equal(db.prepare("SELECT count(*) AS n FROM kontakty").get().n, 1);
-  assert.ok(riadok.trvanie_s > 45, "meranie trvania musí sedieť so skutočnosťou");
-  assert.equal(riadok.podozrive, 0);
-  db.close();
 });
 
 test("dotazník sa odošle bez ankety aj bez kontaktu", { timeout: 600000 }, async (t) => {

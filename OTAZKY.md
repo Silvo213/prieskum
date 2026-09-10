@@ -124,7 +124,19 @@ Nič z toho neporušuje hranice zo zdroja pravdy ani z `PRAVIDLA.md`.
 
 ## Čo treba rozhodnúť
 
-1. **Dĺžka.** Prvá verzia v2 merala 326 sekúnd, teda o 26 nad rozpočtom. Preto je
+1. **Dĺžka.** Zmerané v prehliadači s realistickými pauzami:
+
+   | Priebeh | Čas |
+   |---|---|
+   | človek odpovie na všetko vrátane oboch otvorených otázok | 5 min 21 s |
+   | človek otvorené otázky preskočí, čo robí väčšina | 4 min 31 s |
+
+   Rozpočet je päť minút. Úplné vyplnenie ho prekračuje o 21 sekúnd, obvyklé
+   vyplnenie sa doň zmestí. Otvorené otázky sú dobrovoľné a sú obsahom kampane,
+   preto sa neškrtajú. Ak by mal aj ten najdlhší priebeh sedieť do piatich minút,
+   ďalšia na rade je jedna zo štyroch sporných otázok.
+
+   Prvá verzia v2 merala 326 sekúnd. Preto je
    vyhodená otázka „Ide to s Martinom hore, alebo dole?". Merala úplne to isté, čo
    otázka „ako sa vám v Martine žije", len z druhej strany, a smer nálady mesta zdroj
    sentimentu popisuje presnejšie, ako by to zvládol jeden klik.

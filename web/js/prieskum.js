@@ -335,6 +335,25 @@ function ukazPostup() {
 
 /* ---------- odoslanie ---------- */
 
+/* Ktorá otázka plní ktorý stĺpec, hovorí questions.json, nie číslo v kóde.
+   Práve na tomto sa dá pri prečíslovaní dotazníka nenápadne pošmyknúť:
+   anketa potom posiela do mestskej časti text z inej otázky a server ju
+   odmietne, čo si nikto nevšimne. */
+function otazkaPreStlpec(stlpec) {
+  for (const blok of dotaznik.bloky) {
+    if (blok.ulozisko !== "odpovede") continue;
+    for (const otazka of blok.otazky ?? []) {
+      if (otazka.stlpec === stlpec) return otazka.id;
+    }
+  }
+  return null;
+}
+
+function odpovedPreStlpec(stlpec) {
+  const id = otazkaPreStlpec(stlpec);
+  return id === null ? null : (stav.odpovede[id] ?? null);
+}
+
 function zostavPoziadavky() {
   const poziadavky = [{
     cesta: `${API}/odpovede`,
@@ -356,8 +375,8 @@ function zostavPoziadavky() {
       telo: {
         kandidat: stav.anketa.kandidat ?? null,
         ucast: stav.anketa.ucast ?? null,
-        mestska_cast: stav.odpovede.b6q1 ?? null,
-        vek: stav.odpovede.b6q2 ?? null,
+        mestska_cast: odpovedPreStlpec("mestska_cast"),
+        vek: odpovedPreStlpec("vek"),
       },
     });
   }
@@ -457,9 +476,17 @@ async function zacniOdznova() {
 
 async function ukazFrontu() {
   let cakajuce = 0;
-  try { cakajuce = await ulozisko.dlzkaFronty(); } catch { /* bez IndexedDB */ }
-  prvky.fronta.classList.toggle("skryte", cakajuce === 0);
-  prvky.fronta.textContent = `Čaká na odoslanie: ${cakajuce}. Odoslať teraz`;
+  let odmietnute = 0;
+  try {
+    cakajuce = await ulozisko.dlzkaFronty();
+    odmietnute = (await ulozisko.zlyhane()).length;
+  } catch { /* bez IndexedDB */ }
+
+  prvky.fronta.classList.toggle("skryte", cakajuce === 0 && odmietnute === 0);
+  // Odmietnuté musí byť vidieť. Ticho zahodená odpoveď je horšia než chyba.
+  prvky.fronta.textContent = odmietnute > 0
+    ? `Čaká: ${cakajuce}, server odmietol: ${odmietnute}. Odoslať teraz`
+    : `Čaká na odoslanie: ${cakajuce}. Odoslať teraz`;
 }
 
 prvky.fronta.addEventListener("click", async () => {
