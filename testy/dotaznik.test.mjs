@@ -15,7 +15,9 @@ async function prejdiCelyDotaznik(strana, { kontakt = true, anketa = true } = {}
     if (await strana.locator("#pata.skryte").count()) break;
 
     const jeKontakt = (await strana.locator("#dalej").textContent()) === "Odoslať";
-    const jeAnketa = (await strana.locator("#obsah h2").first().textContent()) === "Anketa";
+    /* Batéria nemá nadpis typu h2, preto sa naň nesmie čakať. */
+    const nadpis = await strana.locator("#obsah h2").first().textContent({ timeout: 1500 }).catch(() => "");
+    const jeAnketa = nadpis === "Anketa";
 
     if (jeAnketa && !anketa) { await strana.click("#preskocit"); await strana.waitForTimeout(400); continue; }
     if (jeKontakt && !kontakt) { await strana.click("#preskocit"); await strana.waitForTimeout(400); continue; }

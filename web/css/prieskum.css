@@ -253,15 +253,38 @@ h2.otazka {
 
 .vyrok__volby {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--medzera);
+  grid-template-columns: repeat(var(--stupnov, 3), 1fr);
+  gap: 6px;
 }
 
 .vyrok__volby .odpoved {
   justify-content: center;
   text-align: center;
-  padding: 0.6rem 0.3rem;
-  font-size: 0.95rem;
+  padding: 0.5rem 0.2rem;
+  line-height: 1.2;
+  hyphens: none;
+}
+
+/* Trojstupňová škála sa vojde v plnej veľkosti. Pri piatich stupňoch treba
+   písmo zmenšiť, inak sa na mobil nezmestí. Komu je to malé, má vpravo hore
+   prepínač Väčšie písmo, ktorý zväčší celé rozhranie o štvrtinu. */
+.vyrok__volby { font-size: 0.95rem; }
+.vyrok__volby--uzke { font-size: 0.8rem; }
+
+/* Hlavička škály nad batériou, aby človek nemusel čítať popisy v každom riadku. */
+.skala {
+  display: grid;
+  grid-template-columns: repeat(var(--stupnov, 3), 1fr);
+  gap: 6px;
+  margin-bottom: 0.4rem;
+}
+.skala span {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 /* ---------- textové polia ---------- */

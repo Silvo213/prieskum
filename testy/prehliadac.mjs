@@ -65,6 +65,7 @@ export function casNaPrecitanie(text) {
 const PISE_OTVORENE = process.env.PRIESKUM_OTVORENE !== "0";
 
 export async function vyplnObrazovku(strana) {
+  await strana.locator("#obsah .odpoved, #obsah textarea, #obsah input").first().waitFor({ timeout: 10000 }).catch(() => {});
   const textNaObrazovke = await strana.locator("#obsah").innerText();
   const pocetMoznosti = await strana.locator("#obsah .odpoved").count();
 

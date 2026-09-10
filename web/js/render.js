@@ -176,8 +176,11 @@ function vykresliUlicu(otazka, stav, zmena, ulice) {
 /* batéria výrokov: výrok a pod ním tri tlačidlá vedľa seba */
 export function vykresliBateriu(blok, stav, zmena) {
   const kus = document.createDocumentFragment();
-  kus.append(prvok("h2", "otazka", blok.nazov));
-  kus.append(prvok("p", "napoveda", "Ku každej vete povedzte, či s ňou súhlasíte."));
+  const stupnov = blok.skala.length;
+  const uzke = stupnov > 3;
+
+  kus.append(prvok("p", "sekcia", blok.nazov));
+  kus.append(prvok("p", "sekcia__uvod", blok.uvod ?? "Pri každom riadku vyberte, čo platí."));
 
   const vyroky = [...blok.vyroky];
   if (blok.miesat) {
@@ -197,7 +200,8 @@ export function vykresliBateriu(blok, stav, zmena) {
     const obal = prvok("div", "vyrok");
     obal.append(prvok("p", "vyrok__text", vyrok.text));
 
-    const volby = prvok("div", "vyrok__volby");
+    const volby = prvok("div", "vyrok__volby" + (uzke ? " vyrok__volby--uzke" : ""));
+    volby.style.setProperty("--stupnov", String(stupnov));
     volby.setAttribute("role", "radiogroup");
     volby.setAttribute("aria-label", vyrok.text);
 
@@ -238,8 +242,11 @@ export function hotova(obrazovka, stav) {
    ktorá otázka to je a čo od neho chceme. */
 export function chyba(obrazovka, stav) {
   if (obrazovka.bateria) {
+    if (obrazovka.bateria.povinne === false) return null;
     const chybajuci = obrazovka.bateria.vyroky.find((v) => stav.odpovede[v.id] === undefined);
-    return chybajuci ? { id: chybajuci.id, text: chybajuci.text, sprava: "Ku každej vete povedzte, či s ňou súhlasíte." } : null;
+    return chybajuci
+      ? { id: chybajuci.id, text: chybajuci.text, sprava: "Pri tomto riadku ešte nemáme odpoveď." }
+      : null;
   }
 
   for (const otazka of obrazovka.otazky ?? []) {

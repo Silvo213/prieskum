@@ -4,7 +4,7 @@
 
    Odpovede sa nikdy neukladajú do medzipamäte prehliadača. */
 
-const VERZIA = "prieskum-2026-09-7";
+const VERZIA = "prieskum-2026-09-8";
 
 const SUBORY = [
   "./",

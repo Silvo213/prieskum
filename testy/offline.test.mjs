@@ -21,7 +21,8 @@ async function vyplnRychlo(strana) {
     if (await strana.locator("#pata.skryte").count()) break;
 
     const popis = await strana.locator("#dalej").textContent();
-    if (popis === "Ďalej" && (await strana.locator("#obsah h2").first().textContent()) === "Kde dnes zbierate?") {
+    const nadpis = await strana.locator("#obsah h2").first().textContent({ timeout: 1500 }).catch(() => "");
+    if (popis === "Ďalej" && nadpis === "Kde dnes zbierate?") {
       await strana.locator("#obsah .odpoved").first().click();
       await strana.waitForTimeout(100);
       await strana.click("#dalej");

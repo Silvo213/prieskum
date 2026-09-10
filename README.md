@@ -65,10 +65,21 @@ ktorý je mimo gitu.
 
     npm test
 
-Prejde trinásť testov backendu za pár sekúnd. Testy v prehliadači sú oddelene,
-lebo jeden z nich naozaj čaká päť minút, aby zmeral, ako dlho vyplnenie trvá:
+Trinásť testov backendu za pár sekúnd. Testy v prehliadači sú oddelene:
 
     npm run test:prehliadac
+
+Správnosť obsahu sa overuje vždy a rýchlo. Meranie času je samostatný test,
+ktorý naozaj čaká, a preto sa púšťa len s pauzami:
+
+| Priebeh | Čas |
+|---|---|
+| odpovie na všetko vrátane oboch otvorených otázok | 5 min 31 s |
+| otvorené otázky preskočí, čo robí väčšina | 4 min 41 s |
+
+Rozpočet je päť minút. Obvyklé vyplnenie sa doň zmestí, úplné ho prekračuje
+o pol minúty. Otvorené otázky sú dobrovoľné a sú obsahom kampane, preto sa
+neškrtajú. Ak treba ísť nižšie, prvý na rade je rotujúci blok, viď OTAZKY.md.
 
 Ak chceš len overiť, že prechod funguje, a nie merať čas:
 

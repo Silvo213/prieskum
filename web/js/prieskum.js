@@ -66,7 +66,7 @@ function zostavObrazovky(pismeno) {
     if (blok.typ === "rotujuci" && blok.pismeno !== pismeno) continue;
 
     if (blok.format === "bateria") {
-      zoznam.push({ druh: "bateria", bateria: blok, nazov: blok.nazov });
+      zoznam.push({ druh: "bateria", bateria: blok, nazov: blok.nazov, uvod: blok.uvod });
       continue;
     }
 
